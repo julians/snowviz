@@ -1,0 +1,23 @@
+html, body { margin:0; padding: 0;height: 100%;}
+#overlay {
+	position: absolute;
+	top: 20px;
+	right: 20px;
+	text-align: right;
+	background-color: rgba(0,0,0, .2);
+	border-radius: 5px;
+	padding: 5px;
+}
+.licence { font-size: 10px; font-family: sans-serif; }
+
+#map_container {
+	height: 80%;
+}
+
+#map {
+	height: 100%;
+}
+
+#timeline {
+	height: 20%;
+}

@@ -2,35 +2,28 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>Yay</title>
+		<title>Is it snowing in Central Asia?</title>
+		<link rel="stylesheet" href="style.css" />
 		<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.css" />
 		<!--[if lte IE 8]>
 		    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.ie.css" />
 		<![endif]-->
-
 		<script src="http://cdn.leafletjs.com/leaflet-0.5/leaflet.js"></script>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
 		<script type="text/javascript" src="libs/maskcanvas/L.TileLayer.MaskCanvas.js"></script>
 		<script type="text/javascript" src="libs/maskcanvas/QuadTree.js"></script>
 		<script type="text/javascript" src="libs/moment.js"></script>
+		<script type="text/javascript" src="libs/underscore.js"></script>
+		<script type="text/javascript" src="libs/paper.js"></script>
 		<script type="text/javascript" src="map.js?new=blah"></script>
-
-		<style>
-			html, body { margin:0; padding: 0;height: 100%;}
-			#map { height: 100%; }
-			#overlay {
-				position: absolute;
-				top: 20px;
-				right: 20px;
-				text-align: right;
-				background-color: rgba(0,0,0, .2);
-				border-radius: 5px;
-				padding: 5px;
-			}
-			.licence { font-size: 10px; font-family: sans-serif; }
-		</style>
+		<script type="text/javascript" src="timeline.js?new=blah"></script>
 	</head>
-	<body>		
-		<div id="map"></div>
+	<body>
+		<div id="map_container">
+			<div id="map"></div>
+		</div>
+		<div id="timeline">
+			<canvas id="snowgraph" resize></canvas>
+		</div>
 	</body>
 </html>

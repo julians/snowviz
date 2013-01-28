@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Layers</title>	
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>		
+		<script type="text/javascript" src="layers.js"></script>
+
+		<style>
+			html, body { margin:0; padding: 0;height: 100%;}
+
+			#pile ul{
+				margin: 0; 
+				padding: 0;
+				list-style-type: none;  
+				text-align: left;
+			}
+
+			#pile li{
+				margin: 0px 0px 1px 0px;
+				padding: 10px 30px;
+				display:block;
+				width:180px;
+			}
+
+			li.layerOn{
+				background:url("bilder/radio-on.gif");
+
+			}
+
+			li.layerOff{
+				background:url("bilder/radio-off.gif");
+			}
+	
+		</style>
+	</head>
+	<body>		
+		<div id="pile">
+			<ul>
+				<li><a href='#Bounds' id='#Bounds'>Map Bounds</a></li>
+			</ul>
+
+		</div>
+	</body>
+</html>

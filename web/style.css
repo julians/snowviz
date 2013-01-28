@@ -1,4 +1,9 @@
-html, body { margin:0; padding: 0;height: 100%;}
+html, body { 
+	margin: 0;
+	padding: 0;
+	height: 100%;
+}
+
 #overlay {
 	position: absolute;
 	top: 20px;
@@ -8,7 +13,6 @@ html, body { margin:0; padding: 0;height: 100%;}
 	border-radius: 5px;
 	padding: 5px;
 }
-.licence { font-size: 10px; font-family: sans-serif; }
 
 #map_container {
 	height: 80%;
@@ -16,6 +20,7 @@ html, body { margin:0; padding: 0;height: 100%;}
 
 #map {
 	height: 100%;
+	background-color: #2a303a;
 }
 
 #timeline {

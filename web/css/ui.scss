@@ -1,0 +1,148 @@
+/* Variables */
+
+$accent_color: #4cabd3;
+$label_color: #fff;
+$hover_color: #30434b;
+
+@font-face {
+	font-family: AvenirDemi;
+	src: url("../fonts/AvenirNextLTPro-Demi.otf") format("opentype");
+}
+
+body {
+	font-family: "AvenirDemi";
+	color: $label_color;
+}
+
+/* Zoom Controls */
+
+.leaflet-control-zoom, .leaflet-control-zoom-in, .leaflet-control-zoom-out {
+	border: none;
+	border-radius: 0;
+}
+a.leaflet-control-zoom-in, a.leaflet-control-zoom-out {
+	background-color: $accent_color;
+	color: $label_color;
+	display: block;
+	color: transparent;
+	width: 28px;
+	height: 28px;
+	font-size: 18px;
+			-webkit-transition: background-color 0.1s ease-in;	
+}
+a.leaflet-control-zoom-in {
+	margin-bottom: 1px;
+	line-height: 29px;
+	background-image: url("../images/sprite.png");
+	background-position: 9px 9px;
+	
+	&:hover {
+		color: transparent;
+		background-color: $label_color;
+		background-position: -11px 9px;
+	}
+}
+a.leaflet-control-zoom-out {
+	margin-bottom: 1px;
+	line-height: 26px;
+	background-image: url("../images/sprite.png");
+	background-position: 9px -17px;
+	
+	&:hover {
+		color: transparent;
+		background-color: $label_color;
+		background-position: -11px -17px;
+	}
+}
+
+.leaflet-control-zoom {
+	box-shadow: none;
+}
+
+/* Menu */
+
+#timeline-controls {
+	width: 100%;
+	height: 42px;
+	background: #292929;
+	padding-left: 15px;
+
+	label {
+		color: $label_color;
+	    background-color: $hover_color;
+	    padding: 0px 12px;
+	    display: inline-block;
+	    position: relative;
+		margin: 6px -4px 0px 0px;
+		font-size: 12px;
+		height: 29px;
+		line-height: 32px;
+		text-transform: uppercase;
+		-webkit-transition: background-color 0.1s ease-in;
+		
+		&:hover {
+			cursor: pointer;
+			background-color: lighten($hover_color, 5%);
+		}
+		
+		&:not(:last-child){
+			border-right: 1px solid rgba(255, 255, 255, 0.1);
+		}
+	}
+	.toggle {
+		display: none;
+		margin: 0;
+		
+		&:checked + label {
+			background-color: $accent_color;
+		}
+	}
+	
+	.toggle-group {
+		float: left;
+		display: inline-block;
+		border-right: 1px solid rgba(255, 255, 255, 0.1);
+		margin-right: 15px;
+		padding-right: 20px;
+	}
+	
+	.toggle-group-label {
+		color: $label_color;
+		font-size: 12px;
+		line-height: 26px;
+		text-transform: uppercase;
+		margin: 0px 8px 0px 0px;
+	}
+	.timedash {
+		padding-left: 4px;
+	}
+	.button {
+		color: $label_color;
+	    background-color: $hover_color;
+	    padding: 0px 12px;
+	    display: inline-block;
+	    position: relative;
+		margin: 6px 0px 0px 0px;
+		font-size: 12px;
+		height: 29px;
+		line-height: 32px;
+		text-transform: uppercase;
+		text-decoration: none;
+		-webkit-transition: background-color 0.1s ease-in;		
+		
+		&:hover {
+			background-color: $accent_color;
+		}
+		&.download-icon:before {
+			content: '';
+			padding-left: 18px;
+			background-image: url("../images/sprite.png");
+			background-repeat: no-repeat;
+			background-position: 0px -52px;
+		}
+	}
+	#download-button {
+		float: right;
+		margin-right: 20px;
+	}
+}

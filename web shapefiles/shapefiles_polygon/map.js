@@ -22,7 +22,7 @@ $(document).ready(function () {
 
 	L.tileLayer('http://{s}.tile.cloudmade.com/99411e86ded640dd91f0a455b552ae36/997/256/{z}/{x}/{y}.png').addTo(map);
 
-	var polygon = L.polygon([welt,shape1]).addTo(map);
+	var polygon = L.polygon([welt,shape1],{color: "#ff7800", weight: 0}).addTo(map);
 
 
 	/*L.TileLayer.maskCanvas();

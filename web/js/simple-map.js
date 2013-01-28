@@ -28,7 +28,7 @@ $(document).ready(function () {
 	
 	var currentCoverageLayer = null;
 	
-	// getDataForCurrentDate();
+	getDataForCurrentDate();
 	
 	function getDataForCurrentDate()
 	{

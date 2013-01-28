@@ -1,23 +1,82 @@
 $(document).ready(function ()
 {
 	paper.install(window);
-	var canvas = document.getElementById('snowgraph');
-	paper.setup(canvas);
-
-	var graphs = {};
 	
+	// set up graph
+	paper.setup($('#snowgraph').get(0));
+
+	view.onResize = function (event) {
+		redrawGraph();
+	};
+	var graphs = {};
 	var data = null;
-	console.log("loading data…");
+	console.log("loading graph data…");
 	$.getJSON('http://localhost:5000/graph?callback=?', function(response) {
 		data = response;
 		redrawGraph();
-		console.log("yay");
+		console.log("graph data loaded");
 	});
 	
-	$(window).resize(redrawGraph);
+	// set up interactions for graph
+	paper.setup($('#snowgraph_interaction').get(0));
+	paper.projects[1].activate();
+	var hover_highlight = new Path();
+	var hover_highlight_style = {
+		fillColor: new HSLColor(0, 1, 0.5, 0.5)
+	};
+	var hover_text = new PointText(new Point(0, 0));
+	hover_text.fillColor = "red";
+	hover_text.content = "date";
+	var hover_pointer = new Tool();
+	hover_pointer.onMouseMove = function (event) {
+		paper.projects[1].activate();
+		// if event is inside canvas AND we have data
+		if (event.point.x >= 0 && event.point.x <= view.viewSize.width && event.point.y >= 0 && event.point.y <= view.viewSize.height && data) {
+			var dayData = getGraphDataForPosition(event.point.x);
+			var stepSize = view.viewSize.width / (data["days"].length-1);
+			hover_highlight.removeSegments();
+			hover_highlight = new Path.Rectangle(new Rectangle(dayData["index"]*stepSize, 0, stepSize, view.viewSize.height));
+			hover_highlight.style = hover_highlight_style;
+			hover_highlight.visible = true;
+			hover_text.visible = true;
+			hover_text.content = dayData["day"]["date"];
+			positionHoverText(hover_text, dayData["index"], stepSize);
+		} else {
+			hover_highlight.visible = false;
+			hover_text.visible = false;
+		}
+	}
+	hover_pointer.onMouseMove = function (event) {
+		paper.projects[1].activate();
+	}
+	
+	function getGraphDataForPosition (x)
+	{
+		var stepSize = view.viewSize.width / (data["days"].length-1);
+		var dayIndex = Math.floor(x/stepSize);
+		return {
+			"day": data["days"][dayIndex],
+			"index": dayIndex
+		}
+	}
+	
+	function positionHoverText (text, index, stepSize)
+	{
+		var b = text.bounds;
+		var hPadding = 5;
+		var vPadding = 15;
+		if (index*stepSize + b.width + hPadding*2 > view.viewSize.width) {
+			text.paragraphStyle.justification = "right";
+			text.setPoint(new Point(index*stepSize-hPadding, vPadding));
+		} else {
+			text.paragraphStyle.justification = "left";
+			text.setPoint(new Point(index*stepSize+stepSize+hPadding, vPadding));
+		}
+	}
 
 	function redrawGraph ()
 	{
+		paper.projects[0].activate();
 		if (data) {
 			// alte Graphen löschen
 			$.each(graphs, function (key, graph) {
@@ -36,7 +95,6 @@ $(document).ready(function ()
 			var altitudeStrings = _.map(data["altitude_ranges"], function (altitude) {
 				return altitude+"";
 			});
-			console.log(altitudeStrings);
 			
 			// summing up altitudes for the graphs to build on each other
 			// prefill with 0

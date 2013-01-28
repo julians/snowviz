@@ -1,0 +1,88 @@
+/* Variables */
+
+$accent_color: #4cabd3;
+$label_color: #fff;
+$hover_color: #30434b;
+
+@font-face {
+	font-family: AvenirDemi;
+	src: url("../fonts/AvenirNextLTPro-Demi.otf") format("opentype");
+}
+
+body {
+	font-family: "AvenirDemi";
+}
+
+/* Zoom Controls */
+
+.leaflet-control-zoom, .leaflet-control-zoom-in, .leaflet-control-zoom-out {
+	border: none;
+	border-radius: 0;
+}
+a.leaflet-control-zoom-in, a.leaflet-control-zoom-out {
+	background-color: $accent_color;
+	color: $label_color;
+	display: block;
+	color: transparent;
+	width: 28px;
+	height: 28px;
+	font-size: 18px;
+}
+a.leaflet-control-zoom-in {
+	margin-bottom: 1px;
+	line-height: 29px;
+	background-image: url("../images/sprite.png");
+	background-position: 9px 9px;
+	
+	&:hover {
+		color: transparent;
+		background-color: $label_color;
+		background-position: -11px 9px;
+	}
+}
+a.leaflet-control-zoom-out {
+	margin-bottom: 1px;
+	line-height: 26px;
+	background-image: url("../images/sprite.png");
+	background-position: 9px -17px;
+	
+	&:hover {
+		color: transparent;
+		background-color: $label_color;
+		background-position: -11px -17px;
+	}
+}
+
+/* Menu */
+
+#timeline-controls {
+	width: 100%;
+	height: 42px;
+	background: #292929;
+
+	label {
+		color: $label_color;
+	    background-color: $hover_color;
+	    padding: 8px 12px;
+	    display: inline-block;
+	    position: relative;
+		margin: 0px -4px 0px 0px;
+		font-size: 12px;
+		line-height: 26px;
+		text-transform: uppercase;
+		-webkit-transition: background-color 0.1s ease-in;
+		
+		&:hover {
+			cursor: pointer;
+			background-color: lighten($hover_color, 5%);
+		}
+	}
+	.toggle {
+		display: none;
+		margin: 0;
+		
+		&:checked + label {
+			background-color: $accent_color;
+		}
+	}
+}

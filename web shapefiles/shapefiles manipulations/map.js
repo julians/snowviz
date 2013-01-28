@@ -14,9 +14,21 @@ $(document).ready(function () {
 
 	L.tileLayer('http://{s}.tile.cloudmade.com/99411e86ded640dd91f0a455b552ae36/997/256/{z}/{x}/{y}.png').addTo(map);
 
-	//console.log(shape1);
+	//var polygon = L.polygon([shape1]).addTo(map);
 
-	var polygon = L.polygon([shape1]).addTo(map);
+
+	L.TileLayer.maskCanvas();
+
+	var layer = L.TileLayer.maskCanvas({
+       radius: 5,  // radius in pixels or in meters (see useAbsoluteRadius)
+       useAbsoluteRadius: true,  // true: r in meters, false: r in pixels
+       color: '#000',  // the color of the layer
+       opacity: 0.5,  // opacity of the not coverted area
+	});
+	
+	layer.setData(shape1);
+
+	map.addLayer(layer);
 
 
 

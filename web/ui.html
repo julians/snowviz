@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Is it snowing in Central Asia?</title>
+		<link rel="stylesheet" href="style.css" />
+		<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.css" />
+		<link rel="stylesheet" href="css/ui.css" />		
+		<!--[if lte IE 8]>
+		    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.ie.css" />
+		<![endif]-->
+		<script src="http://cdn.leafletjs.com/leaflet-0.5/leaflet.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+		<script type="text/javascript" src="libs/maskcanvas/L.TileLayer.MaskCanvas.js"></script>
+		<script type="text/javascript" src="libs/maskcanvas/QuadTree.js"></script>
+		<script type="text/javascript" src="libs/moment.js"></script>
+		<script type="text/javascript" src="libs/underscore.js"></script>
+		<script type="text/javascript" src="libs/paper.js"></script>
+		<script type="text/javascript" src="js/simple-map.js"></script>
+
+	</head>
+	<body>
+		<div id="map_container">
+			<div id="map"></div>
+		</div>
+		<div id="timeline">
+			<div id="timeline-controls">
+				<div id="modeselector" class="toggle-group">
+					<span class="toggle-group-label">Mode</span>
+					<input type="radio" name="toggle-mode" value="" id="toggle-analyze" class="toggle" checked><label for="toggle-analyze">Analyze</label>
+					<input type="radio" name="toggle-mode" value="" id="toggle-compare" class="toggle"><label for="toggle-compare">Compare</label>
+					<input type="radio" name="toggle-mode" value="" id="toggle-split" class="toggle"><label for="toggle-split">Split</label>
+				</div>
+				
+				<div id="time-span" class="toggle-group">
+					<span class="toggle-group-label">Time Span</span>
+					<input type="button" name="toggle-zoom" value="" id="startdate" class="toggle" checked><label for="startdate">Nov 26, 2006</label>
+					<span class="timedash">—</span>
+					<input type="button" name="toggle-zoom" value="" id="enddate" class="toggle"><label for="enddate">Nov 27, 2005</label>
+				</div>
+				
+				<div id="zoom-selector" class="toggle-group">
+					<span class="toggle-group-label">Zoom</span>
+					<input type="radio" name="toggle-zoom" value="" id="toggle-days" class="toggle" checked><label for="toggle-days">1 d</label>
+					<input type="radio" name="toggle-zoom" value="" id="toggle-weeks" class="toggle"><label for="toggle-weeks">1 w</label>
+					<input type="radio" name="toggle-zoom" value="" id="toggle-months" class="toggle"><label for="toggle-months">1 m</label>
+					<input type="radio" name="toggle-zoom" value="" id="toggle-years" class="toggle"><label for="toggle-years">1 y</label>
+					<input type="radio" name="toggle-zoom" value="" id="toggle-five-years" class="toggle"><label for="toggle-five-years">5 y</label>
+				</div>
+				
+				<a href="#" id="download-button" class="button download-icon">Download Data</a>
+			</div>
+			<canvas id="snowgraph" resize></canvas>
+		</div>
+	</body>
+</html>

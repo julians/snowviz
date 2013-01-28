@@ -20,4 +20,21 @@ html, body { margin:0; padding: 0;height: 100%;}
 
 #timeline {
 	height: 20%;
+	position: relative;
+}
+
+#timeline canvas {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+}
+
+#timeline #snowgraph {
+	z-index: 1;
+}
+
+#timeline #snowgraph_interaction {
+	z-index: 2;
 }

@@ -4,7 +4,8 @@
   src: url("../fonts/AvenirNextLTPro-Demi.otf") format("opentype"); }
 
 body {
-  font-family: "AvenirDemi"; }
+  font-family: "AvenirDemi";
+  color: white; }
 
 /* Zoom Controls */
 .leaflet-control-zoom, .leaflet-control-zoom-in, .leaflet-control-zoom-out {
@@ -18,7 +19,8 @@ a.leaflet-control-zoom-in, a.leaflet-control-zoom-out {
   color: transparent;
   width: 28px;
   height: 28px;
-  font-size: 18px; }
+  font-size: 18px;
+  -webkit-transition: background-color 0.1s ease-in; }
 
 a.leaflet-control-zoom-in {
   margin-bottom: 1px;
@@ -40,27 +42,72 @@ a.leaflet-control-zoom-out {
     background-color: white;
     background-position: -11px -17px; }
 
+.leaflet-control-zoom {
+  box-shadow: none; }
+
 /* Menu */
 #timeline-controls {
   width: 100%;
   height: 42px;
-  background: #292929; }
+  background: #292929;
+  padding-left: 15px; }
   #timeline-controls label {
     color: white;
     background-color: #30434b;
-    padding: 8px 12px;
+    padding: 0px 12px;
     display: inline-block;
     position: relative;
-    margin: 0px -4px 0px 0px;
+    margin: 6px -4px 0px 0px;
     font-size: 12px;
-    line-height: 26px;
+    height: 29px;
+    line-height: 32px;
     text-transform: uppercase;
     -webkit-transition: background-color 0.1s ease-in; }
     #timeline-controls label:hover {
       cursor: pointer;
       background-color: #3a515b; }
+    #timeline-controls label:not(:last-child) {
+      border-right: 1px solid rgba(255, 255, 255, 0.1); }
   #timeline-controls .toggle {
     display: none;
     margin: 0; }
     #timeline-controls .toggle:checked + label {
       background-color: #4cabd3; }
+  #timeline-controls .toggle-group {
+    float: left;
+    display: inline-block;
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    margin-right: 15px;
+    padding-right: 20px; }
+  #timeline-controls .toggle-group-label {
+    color: white;
+    font-size: 12px;
+    line-height: 26px;
+    text-transform: uppercase;
+    margin: 0px 8px 0px 0px; }
+  #timeline-controls .timedash {
+    padding-left: 4px; }
+  #timeline-controls .button {
+    color: white;
+    background-color: #30434b;
+    padding: 0px 12px;
+    display: inline-block;
+    position: relative;
+    margin: 6px 0px 0px 0px;
+    font-size: 12px;
+    height: 29px;
+    line-height: 32px;
+    text-transform: uppercase;
+    text-decoration: none;
+    -webkit-transition: background-color 0.1s ease-in; }
+    #timeline-controls .button:hover {
+      background-color: #4cabd3; }
+    #timeline-controls .button.download-icon:before {
+      content: '';
+      padding-left: 18px;
+      background-image: url("../images/sprite.png");
+      background-repeat: no-repeat;
+      background-position: 0px -52px; }
+  #timeline-controls #download-button {
+    float: right;
+    margin-right: 20px; }

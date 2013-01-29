@@ -4,13 +4,10 @@ $accent_color: #4cabd3;
 $label_color: #fff;
 $hover_color: #30434b;
 
-@font-face {
-	font-family: AvenirDemi;
-	src: url("../fonts/AvenirNextLTPro-Demi.otf") format("opentype");
-}
+
 
 body {
-	font-family: "AvenirDemi";
+	font-family: "Helvetica Neue", "Helvetica", "Arial";
 	color: $label_color;
 }
 

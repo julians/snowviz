@@ -7,6 +7,14 @@ $(document).ready(function () {
 	]
 
 
+	var shape2 = [
+		[52.413281,13.048966],
+		[52.415403,13.045934],
+		[52.412746,13.045752]
+	]
+
+
+
 	var welt = [
 		[-90,-90],
 		[90,-90],
@@ -22,7 +30,9 @@ $(document).ready(function () {
 
 	L.tileLayer('http://{s}.tile.cloudmade.com/99411e86ded640dd91f0a455b552ae36/997/256/{z}/{x}/{y}.png').addTo(map);
 
-	var polygon = L.polygon([welt,shape1],{color: "#ff7800", weight: 0}).addTo(map);
+	console.log(shape1);
+
+	var polygon = L.polygon([welt,shape1,shape2],{color: "#ff7800", weight: 0}).addTo(map);
 
 
 	/*L.TileLayer.maskCanvas();

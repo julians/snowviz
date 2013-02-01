@@ -1,9 +1,7 @@
 L.TileLayer.MaskCanvas = L.TileLayer.Canvas.extend({
 	options: {
-        radius: 5,
-        useAbsoluteRadius: true,  // true: r in meters, false: r in pixels
         color: '#fff',
-        opacity: 0.5,
+        opacity: 1,
         debug: false,
 		rectSize: 0.005
 	},
@@ -58,7 +56,8 @@ L.TileLayer.MaskCanvas = L.TileLayer.Canvas.extend({
         dataset.forEach(function(d) {
             self._quad.insert({
                 x: d[1], //lng
-                y: d[0] //lat
+                y: d[0], //lat
+				v: d[2]
             });
         });
         this.redraw();
@@ -82,8 +81,8 @@ L.TileLayer.MaskCanvas = L.TileLayer.Canvas.extend({
             g = c.getContext('2d'),
             self = this,
             p;
-		g.fillStyle = "#fff";
         coordinates.forEach(function(coords){
+			g.fillStyle = "rgba(255, 255, 255,"+coords[2]+")";
             p = self._tilePoint(ctx, coords);
             p2 = self._tilePoint(ctx, [coords[0]+self.options.rectSize, coords[1]+self.options.rectSize]);
             g.beginPath();
@@ -101,58 +100,33 @@ L.TileLayer.MaskCanvas = L.TileLayer.Canvas.extend({
         };
     },
 
-    _getLatRadius: function () {
-        return (this.options.radius / 40075017) * 360;
-    },
-
-    _getLngRadius: function () {
-        return this._getLatRadius() / Math.cos(L.LatLng.DEG_TO_RAD * this._latlng.lat);
-    },
-
-    // call to update the radius
-    projectLatlngs: function () {
-        var lngRadius = this._getLngRadius(),
-            latlng2 = new L.LatLng(this._latlng.lat, this._latlng.lng - lngRadius, true),
-            point2 = this._map.latLngToLayerPoint(latlng2),
-            point = this._map.latLngToLayerPoint(this._latlng);
-        this._radius = Math.max(Math.round(point.x - point2.x), 1);
-    },
-
-    // the radius of a circle can be either absolute in pixels or in meters
-    _getRadius: function() {
-        if (this.options.useAbsoluteRadius) {
-            return this._radius;
-        } else{
-            return this.options.radius;
-        }
-    },
-
     _draw: function (ctx) {
         if (!this._quad || !this._map) {
             return;
         }
 
         var tileSize = this.options.tileSize;
-
+		
+		// get the corner points for this tile (in pixels)
         var nwPoint = ctx.tilePoint.multiplyBy(tileSize);
         var sePoint = nwPoint.add(new L.Point(tileSize, tileSize));
-
-        if (this.options.useAbsoluteRadius) {
-            var centerPoint = nwPoint.add(new L.Point(tileSize/2, tileSize/2));
-            this._latlng = this._map.unproject(centerPoint);
-            this.projectLatlngs();
-        }
-
-        // padding
-        var pad = new L.Point(this._getRadius(), this._getRadius());
-        nwPoint = nwPoint.subtract(pad);
-        sePoint = sePoint.add(pad);
-
-        var bounds = new L.LatLngBounds(this._map.unproject(sePoint), this._map.unproject(nwPoint));
-
+		// convert them to lat long
+		nwPoint = this._map.unproject(nwPoint);
+		sePoint = this._map.unproject(sePoint);
+		// create a lat long bounds rect from them and look how big it is
+        var bounds = new L.LatLngBounds(sePoint, nwPoint);
+		var distance = nwPoint.distanceTo(bounds.getNorthEast());
+		// create a lat long bounds rect from the snow rects,
+		// look how big it is and add some padding to the bounds for this tile
+		// because we need to also draw snow rects that are only partially on this tile,
+		// otherwise we’d have ugly gaps
+		var paddingBounds = new L.LatLngBounds([0, 0], [this.options.rectSize, this.options.rectSize]);
+		var paddingDistance = paddingBounds.getNorthWest().distanceTo(paddingBounds.getNorthEast());
+		bounds = bounds.pad(paddingDistance/distance);
+		
         var coordinates = [];
         this._quad.retrieveInBounds(this._boundsToQuery(bounds)).forEach(function(obj) {
-            coordinates.push([obj.y, obj.x]);
+            coordinates.push([obj.y, obj.x, obj.v]);
         });
 
         this._drawPoints(ctx, coordinates);

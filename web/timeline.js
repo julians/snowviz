@@ -39,12 +39,10 @@ $(document).ready(function ()
 			console.log("got some data");
 			
 			var newCoverageLayer = new L.TileLayer.MaskCanvas({
-				'opacity': 0.5,
-				radius: 750,
-				useAbsoluteRadius: true
+				'opacity': 1,
+				"rectSize": data["cellsize"]
 			});
 			
-			newCoverageLayer.options.rectSize = data["cellsize"];
 			newCoverageLayer.setData(data["points"]);
 			if (currentCoverageLayer != null) map.removeLayer(currentCoverageLayer);
 			currentCoverageLayer = newCoverageLayer;

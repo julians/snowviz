@@ -1,0 +1,79 @@
+html, body { 
+	margin: 0;
+	padding: 0;
+	height: 100%;
+}
+
+/*lionel begin*/
+
+/*#pile {
+	position:absolute;
+	left:0px;
+	top:0px;
+	z-index:-1;
+}*/
+
+#pile ul{
+	margin: 0; 
+	padding: 0;
+	list-style-type: none;  
+	text-align: left;
+}
+
+#pile li{
+	margin: 0px 0px 1px 0px;
+	padding: 10px 30px;
+	display:block;
+	width:180px;
+}
+
+li.layerOn{
+	background:url("bilder/radio-on.gif");
+
+}
+
+li.layerOff{
+	background:url("bilder/radio-off.gif");
+}
+
+/*lionel ende*/
+
+#overlay {
+	position: absolute;
+	top: 20px;
+	right: 20px;
+	text-align: right;
+	background-color: rgba(0,0,0, .2);
+	border-radius: 5px;
+	padding: 5px;
+}
+
+#map_container {
+	height: 80%;
+}
+
+#map {
+	height: 100%;
+	background-color: #2a303a;
+}
+
+#timeline {
+	height: 20%;
+	position: relative;
+}
+
+#timeline canvas {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+}
+
+#timeline #snowgraph {
+	z-index: 1;
+}
+
+#timeline #snowgraph_interaction {
+	z-index: 2;
+}

@@ -19,7 +19,6 @@ var shapefiles = [
 			[49.424403,66.054934],
 			[40.421746,67.054752]
 		]
-
 	},
 	{ 
 		title: "East",
@@ -130,18 +129,6 @@ $("#pile li").click(function()
 	updateLayers($(this).find("a").attr("href"));
 	//console.log($(this));
 });
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

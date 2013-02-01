@@ -32,7 +32,8 @@ def bydate(datestring):
         coords = row[0].split()
         data["points"].append([
             float(coords[0]),
-            float(coords[1])
+            float(coords[1]),
+            1
         ])
     
     output = json.dumps(data, indent=4, default=date_handler)

@@ -1,4 +1,4 @@
-L.TileLayer.MaskCanvas = L.TileLayer.Canvas.extend({
+L.TileLayer.SnowCoverage = L.TileLayer.Canvas.extend({
 	options: {
         color: '#fff',
         opacity: 1,
@@ -136,6 +136,6 @@ L.TileLayer.MaskCanvas = L.TileLayer.Canvas.extend({
     }
 });
 
-L.TileLayer.maskCanvas = function (options) {
-    return new L.TileLayer.MaskCanvas(options);
+L.TileLayer.snowCoverage = function (options) {
+    return new L.TileLayer.SnowCoverage(options);
 };

@@ -38,7 +38,7 @@ $(document).ready(function ()
 			var cellsize = data["cellsize"];
 			console.log("got some data");
 			
-			var newCoverageLayer = new L.TileLayer.MaskCanvas({
+			var newCoverageLayer = new L.TileLayer.SnowCoverage({
 				'opacity': 1,
 				"rectSize": data["cellsize"]
 			});

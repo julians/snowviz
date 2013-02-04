@@ -145,13 +145,25 @@ function updateMap(intIndex)
 
 
 function importShape()
-{
-	// adding the new shapefile to the main json
-	$("#pile ul").append("<li><a href='#"+newShapefile.title+"' id='#"+newShapefile.title+"'>"+newShapefile.title+"</a></li>");
+{	
+	// test the new shapefile
 
-	shapefiles.push(newShapefile);
+	// collection of all the titles into an array
+	var tmpTitles = _.pluck(shapefiles, 'title');
+	console.log("tmpTitles");
+	console.log(tmpTitles);
 
-	updateLayers("#"+newShapefile.title);
+	if(_.contains(tmpTitles, newShapefile.title)){
+		console.log("gibt schon");
+	}else{
+
+		// adding the new shapefile to the main json
+		$("#pile ul").append("<li><a href='#"+newShapefile.title+"' id='#"+newShapefile.title+"'>"+newShapefile.title+"</a></li>");
+
+		shapefiles.push(newShapefile);
+		updateLayers("#"+newShapefile.title);
+	}
+	
 }
 
 

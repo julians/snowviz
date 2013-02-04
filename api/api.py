@@ -108,51 +108,56 @@ def bydaterange():
 
 @app.route("/graph")
 def graph():
-    conn = connect_db()
-    cur = conn.cursor()
-    cur.execute("""
-        SELECT date, CAST(FLOOR(altitude / 500)*500 AS INT) as altitude_group, SUM(value)
-        FROM snow_points
-        GROUP BY date, altitude_group
-        ORDER BY date;
-    """)
+    try:
+        cached_graph = open("cache/graph.json")
+        data = json.load(cached_graph)
+    except:
+        conn = connect_db()
+        cur = conn.cursor()
+        cur.execute("""
+            SELECT date, CAST(FLOOR(altitude / 500)*500 AS INT) as altitude_group, SUM(value)
+            FROM snow_points
+            GROUP BY date, altitude_group
+            ORDER BY date;
+        """)
     
-    data = {
-        "startdate": None,
-        "enddate": None,
-        "altitude_ranges": None,
-        "max_absolute_snow": None,
-        "max_relative_snow": None,
-        "days": [],
-        "max_possible_snow_points": max_snow_points
-    }
-    
-    current_date = None
-    snow_for_current_date = 0
-    max_snow = 0
-    altitude_ranges = set()
-    
-    for row in cur.fetchall():
-        if row[0] != current_date:
-            if snow_for_current_date > max_snow: max_snow = snow_for_current_date
-            snow_for_current_date = 0
-            current_date = row[0]
-            data["days"].append({"date": row[0]})
-
-        data["days"][-1][row[1]] = {
-            "absolute": row[2],
-            "relative_to_area": row[2]/max_snow_points
+        data = {
+            "startdate": None,
+            "enddate": None,
+            "altitude_ranges": None,
+            "max_absolute_snow": None,
+            "max_relative_snow": None,
+            "days": [],
+            "max_possible_snow_points": max_snow_points
         }
-        altitude_ranges.add(int(row[1]))
-        snow_for_current_date += row[2]
     
-    data["max_absolute_snow"] = max_snow
-    data["max_relative_snow"] = max_snow/max_snow_points
-    data["altitude_ranges"] = sorted(list(altitude_ranges))
-    data["startdate"] = data["days"][0]["date"]
-    data["enddate"] = data["days"][-1]["date"]
+        current_date = None
+        snow_for_current_date = 0
+        max_snow = 0
+        altitude_ranges = set()
+    
+        for row in cur.fetchall():
+            if row[0] != current_date:
+                if snow_for_current_date > max_snow: max_snow = snow_for_current_date
+                snow_for_current_date = 0
+                current_date = row[0]
+                data["days"].append({"date": row[0]})
+
+            data["days"][-1][row[1]] = {
+                "absolute": row[2],
+                "relative_to_area": row[2]/max_snow_points
+            }
+            altitude_ranges.add(int(row[1]))
+            snow_for_current_date += row[2]
+    
+        data["max_absolute_snow"] = max_snow
+        data["max_relative_snow"] = max_snow/max_snow_points
+        data["altitude_ranges"] = sorted(list(altitude_ranges))
+        data["startdate"] = data["days"][0]["date"]
+        data["enddate"] = data["days"][-1]["date"]
     
     output = json.dumps(data, indent=4, default=date_handler)
+        
     if request.args.get("callback"):
         output = "%s(%s);" % (request.args.get("callback"), output)
     

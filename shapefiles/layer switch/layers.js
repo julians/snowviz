@@ -144,7 +144,7 @@ function importShape()
 {
 	// adding the new shapefile to the main json
 	$("#pile ul").append("<li><a href='#"+newShapefile.title+"' id='#"+newShapefile.title+"'>"+newShapefile.title+"</a></li>");
-	
+
 	shapefiles.push(newShapefile);
 
 	updateLayers("#"+newShapefile.title);
@@ -152,17 +152,15 @@ function importShape()
 
 
 // Click event on layers
-$("#pile li").click(function() 
+$("#pile").on("click","li",function() 
 {
 	console.log($(this));
 	updateLayers($(this).find("a").attr("href"));
 });
 
 //
-$("#buttons li").click(function() 
+$("#buttons li").on("click",function() 
 {
-	//console.log($(this).is('.createRegion'));
-
 	var detectedClass = $(this).attr('class');
 
 	switch(detectedClass)

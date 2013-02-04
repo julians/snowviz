@@ -1,5 +1,7 @@
-var LayerManager = {
-	shapefiles = [
+var snowviz = snowviz || {};
+
+snowviz.ShapefileManager = L.Class.extend({
+	shapefiles: [
 		{ 
 			title: "North",
 			description: "Lorem ipsum dolor sit amet, consecteturetus. Nunc ulrat laoreet magna ultrices.",
@@ -28,7 +30,7 @@ var LayerManager = {
 			]
 		}
 	],
-	newShapefile = {
+	newShapefile: {
 
 		title: "Border",
 			description: "Lorem ipsum dolor sit amet, consecteturetus. Nunc ulrat laoreet magna ultrices.",
@@ -38,29 +40,29 @@ var LayerManager = {
 				[39.411746,70.044752]
 			]
 	},
-	welt = [
+	welt: [
 		[-180,-180],
 		[180,-180],
 		[180,180],
 		[-180,180]
 	],
-	currentLayer = "#Bounds",
-	polygonLayer,
-	add1 = 1572/2*0.0050865689142654,
-	add2 = 151*0.0050865689142654,
-	bounds = new L.LatLngBounds([38.41, 67], [38.41+add2, 67+add1]),
-	init: function() {
+	currentLayer: "#Bounds",
+	polygonLayer: null,
+	add1: 1572/2*0.0050865689142654,
+	add2: 151*0.0050865689142654,
+	initialize: function() {
 		console.log("init Layermanager");
-		LayerManager.initEvents();
-		LayerManager.initShapefiles();
-		LayerManager.updateLayers();	
+		this.initEvents();
+		this.initShapefiles();
+		this.updateLayers(this.currentLayer);	
 	},
-	initEvents = function () {
+	initEvents: function () {
 		// Click event on layers
+		var self = this;
 		$("#pile").on("click","li",function() 
 		{
-			console.log($(this));
-			updateLayers($(this).find("a").attr("href"));
+			var boo = $(this).find("a").attr("href");
+			self.updateLayers(boo);
 		});
 
 		//
@@ -82,19 +84,20 @@ var LayerManager = {
 				}
 		});
 	},
-	initShapefiles = function() {
+	initShapefiles: function() {
 		// "load" the shapefiles into the UI
-		for(var i in shapefiles) {
-			var shape = shapefiles[i];
-			$("#pile ul").append("<li><a href='#"+shape.title+"' id='#"+shape.title+"'>"+shape.title+"</a></li>");
+		for(var i in this.shapefiles) {
+			var shape = this.shapefiles[i];
+			console.log(shape);
+			$("#pile ul").append("<li><a href='#"+ shape.title+"' id='#"+shape.title+"'>"+shape.title+"</a></li>");
 		}
 	},
-	updateLayers = function (intIndex) {
+	updateLayers: function (intIndex) {
 		//console.log($('#pile li').length);
-
+		console.log("booooo")
 		$('#pile li').each(function() {
 
-			//console.log($(this).find("a").attr("href"));
+			console.log($(this).find("a").attr("href"));
 
 			if($(this).find("a").attr("href") == intIndex){
 				//console.log("yes");
@@ -108,13 +111,13 @@ var LayerManager = {
 			}
 		});
 
-		updateMap(intIndex);
+		this.updateMap(intIndex);
 	},
-	updateMap = function(intIndex) {
+	updateMap: function(intIndex) {
 		var intIndex = intIndex.substr(1);
 		//console.log(intIndex);
 
-		if(polygonLayer){
+		if(this.polygonLayer){
 			console.log("deletation of the current outline");
 			map.removeLayer(polygonLayer);
 		}
@@ -136,23 +139,23 @@ var LayerManager = {
 			map.fitBounds(positivePoly.getBounds());
 		};
 	}, 
-	importShape = function () {
+	importShape: function () {
 		// test the new shapefile
 
 		// collection of all the titles into an array
-		var tmpTitles = _.pluck(shapefiles, 'title');
+		var tmpTitles = _.pluck(this.shapefiles, 'title');
 		console.log("tmpTitles");
 		console.log(tmpTitles);
 
 		// very basic check to see if the shapefile is already in the pile
-		if(_.contains(tmpTitles, newShapefile.title)) {
+		if(_.contains(tmpTitles, this.newShapefile.title)) {
 			console.log("gibt schon");
 		} else {
 			// adding the new shapefile to the main json
-			$("#pile ul").append("<li><a href='#"+newShapefile.title+"' id='#"+newShapefile.title+"'>"+newShapefile.title+"</a></li>");
+			$("#pile ul").append("<li><a href='#"+ this.newShapefile.title+"' id='#"+ this.newShapefile.title+"'>"+ this.newShapefile.title+"</a></li>");
 
-			shapefiles.push(newShapefile);
-			updateLayers("#"+newShapefile.title);
+			this.shapefiles.push(this.newShapefile);
+			this.updateLayers("#"+ this.newShapefile.title);
 		}
 	}
-}
+});

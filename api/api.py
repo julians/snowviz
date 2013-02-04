@@ -46,6 +46,65 @@ def bydate(datestring):
     
     return output
 
+@app.route("/daterange")
+def bydaterange():
+    startdate = request.args.get("startdate", False)
+    enddate = request.args.get("enddate", False)
+    
+    try:
+        startdate = parser.parse(startdate).date()
+    except Exception, e:
+        return "error"
+    
+    try:
+        enddate = parser.parse(enddate).date()
+    except Exception, e:
+        return "error"
+    
+    delta = enddate - startdate
+    # need to add one day because it’s a range *including* both days
+    delta += datetime.timedelta(days=1)
+    
+    days = [startdate + datetime.timedelta(days=x) for x in range(0, delta.days)]
+    
+    conn = connect_db()
+    cur = conn.cursor()
+    cur.execute("""
+        SELECT ST_AsLatLonText(the_geom, 'D.DDDDDDDDDDD') AS coords, SUM(value)
+        FROM snow_points
+        WHERE date BETWEEN %s AND %s
+        GROUP BY coords;
+    """, (startdate, enddate))
+    
+    data = {
+        "startdate": startdate,
+        "enddate": enddate,
+        "max_snow_absolute": None,
+        "max_snow_relative": None,
+        "days": days,
+        "number_of_days": delta.days,
+        "cellsize": cellsize,
+        "points": []
+    }
+    
+    for row in cur.fetchall():
+        coords = row[0].split()
+        data["points"].append([
+            float(coords[0]),
+            float(coords[1]),
+            int(row[1]),
+            row[1]/delta.days
+        ])
+        if data["max_snow_absolute"] < row[1]:
+            data["max_snow_absolute"] = int(row[1])
+            data["max_snow_relative"] = row[1]/delta.days
+    
+    output = json.dumps(data, indent=4, default=date_handler)
+    if request.args.get("callback"):
+        output = "%s(%s);" % (request.args.get("callback"), output)
+    
+    return output
+
 @app.route("/graph")
 def graph():
     conn = connect_db()

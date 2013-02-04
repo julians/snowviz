@@ -72,6 +72,21 @@
 			<canvas id="snowgraph_interaction" resize></canvas>
 		</div>
 		
+		<div id="overlay">
+			<div id="buttons">
+				<ul>
+					<li class='createRegion'><a href='#' id='createRegion'>Create Region of Interest</a></li>
+					<li class='importShape'><a href='#' id='importShape'>Import File</a></li>
+				</ul>
+			</div>
+			<br/>
+			<div id="pile">
+				<ul>
+					<li><a href='#Bounds' id='#Bounds'>Map Bounds</a></li>
+				</ul>
+			</div>
+		</div>
+		
 		<div id="download-popup" class="reveal-modal">
 			<h1>Cloud-Free Data Download</h1>
 			<section>
@@ -80,22 +95,22 @@
 			</section>
 			<a href="https://dl.dropbox.com/s/gzzb6wsjz44uqsd/CloudFree-20121202.zip?dl=1" class="action-link">Download</a>
 		    <a class="close-reveal-modal">&#215;</a>
-		<section>
-			<h5>About the Data</h5>
-			<p>This visualization uses ModSnow to generate cloud free data from satellite images from NASA MODIS. The processed data is licensed under some cool license.</p>
-		</section>
-		<section>
-			<h5>Data Format</h5>
-			<p>Please choose the data format that you want to download.</p>
-			<div id="data-format-group">
-				<input type="radio" name="data-format" value="" id="format1" checked>
-				<label for="format1">GeoTIFF</label>
-				<input type="radio" name="data-format" value="" id="format2">
-				<label for="format2">JSON</label>
-				<input type="radio" name="data-format" value="" id="format3">
-				<label for="format3">ASCII</label>
-			</div>
-		</section>
+			<section>
+				<h5>About the Data</h5>
+				<p>This visualization uses ModSnow to generate cloud free data from satellite images from NASA MODIS. The processed data is licensed under some cool license.</p>
+			</section>
+			<section>
+				<h5>Data Format</h5>
+				<p>Please choose the data format that you want to download.</p>
+				<div id="data-format-group">
+					<input type="radio" name="data-format" value="" id="format1" checked>
+					<label for="format1">GeoTIFF</label>
+					<input type="radio" name="data-format" value="" id="format2">
+					<label for="format2">JSON</label>
+					<input type="radio" name="data-format" value="" id="format3">
+					<label for="format3">ASCII</label>
+				</div>
+			</section>
 		</div>
 	</body>
 </html>

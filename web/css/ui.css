@@ -142,3 +142,43 @@ a.leaflet-control-zoom-out {
   #data-format-group label {
     display: inline-block;
     margin: 0px 10px 0px 5px; }
+
+/*lionel begin*/
+#pile ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  text-align: left; }
+
+#pile li {
+  margin: 0px 0px 1px 0px;
+  padding: 10px 35px;
+  display: block;
+  width: 175px; }
+
+li.layerOn {
+  background: url("../images/radio-on.gif"); }
+
+li.layerOff {
+  background: url("../images/radio-off.gif"); }
+
+/*---*/
+#buttons ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  text-align: left; }
+
+#buttons li {
+  margin: 0px 0px 1px 0px;
+  padding: 10px 35px;
+  display: block;
+  width: 175px; }
+
+li.createRegion {
+  background: url("../images/bg_createRegion.gif"); }
+
+li.importShape {
+  background: url("../images/bg_importShape.gif"); }
+
+/*lionel ende*/

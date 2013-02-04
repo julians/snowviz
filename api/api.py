@@ -37,6 +37,7 @@ def bydate(datestring):
         data["points"].append([
             float(coords[0]),
             float(coords[1]),
+            1.0,
             1
         ])
     
@@ -92,8 +93,8 @@ def bydaterange():
         data["points"].append([
             float(coords[0]),
             float(coords[1]),
-            int(row[1]),
-            row[1]/delta.days
+            row[1]/delta.days,
+            int(row[1])
         ])
         if data["max_snow_absolute"] < row[1]:
             data["max_snow_absolute"] = int(row[1])

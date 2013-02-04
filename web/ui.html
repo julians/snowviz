@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 		<title>Is it snowing in Central Asia?</title>
-		<link rel="stylesheet" href="style.css" />
+		<link rel="stylesheet" href="libs/jqueryui/css/smoothness/jquery-ui-1.10.0.custom.css">
 		<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.css" />
 		<link rel="stylesheet" href="css/ui.css" />		
 		<link rel="stylesheet" href="css/reveal.css">
@@ -18,6 +18,7 @@
 		<script type="text/javascript" src="libs/paper.js"></script>
 		<script type="text/javascript" src="js/jquery.reveal.js"></script>
 		<script type="text/javascript" src="js/L.TileLayer.SnowCoverage.js"></script>
+		<script src="libs/jqueryui/jquery-ui-1.10.0.custom.js"></script>
 		<script type="text/javascript" src="js/script.js?nocache=true"></script>
 		
 		<script type="text/javascript" charset="utf-8">
@@ -68,8 +69,13 @@
 				
 				<a href="#" id="download-button" data-reveal-id="download-popup" data-animation="fade" class="button download-icon">Download Data</a>
 			</div>
-			<canvas id="snowgraph" resize></canvas>
-			<canvas id="snowgraph_interaction" resize></canvas>
+			<div id="rangepickerBox">
+				<canvas id="snowgraph" resize></canvas>
+				<div id="rangepickerControls">
+					<div id="rangepickerPicker"></div>
+				</div>
+			</div>
+			<!-- <canvas id="snowgraph_interaction" resize></canvas> -->
 		</div>
 		
 		<div id="download-popup" class="reveal-modal">

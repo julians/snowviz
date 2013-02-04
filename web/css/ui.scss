@@ -9,9 +9,80 @@ $hover_color: #30434b;
 	padding: 0;
 }
 
+html, body { 
+	margin: 0;
+	padding: 0;
+	height: 100%;
+}
+
 body {
 	font-family: "Helvetica Neue", "Helvetica", "Arial";
 	color: $label_color;
+}
+
+#overlay {
+	position: absolute;
+	top: 20px;
+	right: 20px;
+	text-align: right;
+	background-color: rgba(0,0,0, .2);
+	border-radius: 5px;
+	padding: 5px;
+}
+
+#map_container {
+	height: 75%;
+}
+
+#map {
+	height: 100%;
+	background-color: #2a303a;
+}
+
+#timeline {
+	height: 25%;
+	position: relative;
+}
+
+#rangepickerBox {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+}
+
+#timeline canvas {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+}
+
+#timeline #snowgraph {
+	z-index: 1;
+}
+
+#timeline #snowgraph_interaction {
+	z-index: 2;
+}
+
+#rangepickerControls {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	z-index: 3;
+}
+
+#rangepickerPicker {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	width: 0;
+	background: hsla(0, 100%, 50%, 0.5);
 }
 
 /* Zoom Controls */

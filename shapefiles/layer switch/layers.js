@@ -1,3 +1,6 @@
+// ToDo
+// update fitBounds when shapefile gets changed
+
 $(document).ready(function () {
 
 
@@ -30,6 +33,18 @@ var shapefiles = [
 		]
 	}
 ];
+
+
+var newShapefile = {
+
+	title: "Border",
+		description: "Lorem ipsum dolor sit amet, consecteturetus. Nunc ulrat laoreet magna ultrices.",
+		poly: [
+			[37.411281,68.049966],
+			[48.414403,69.044934],
+			[39.411746,70.044752]
+		]
+}
 
 var welt = [
 	[-180,-180],
@@ -78,6 +93,9 @@ function updateLayers(intIndex)
 	console.log("-------");
 	console.log(intIndex);	
 
+
+	//console.log($('#pile li').length);
+
 	$('#pile li').each(function() {
 
 		//console.log($(this).find("a").attr("href"));
@@ -103,7 +121,7 @@ function updateMap(intIndex)
 	//console.log(intIndex);
 
 	if(polygonLayer){
-		console.log("layer does exists");
+		console.log("deletation of the current outline");
 		map.removeLayer(polygonLayer);
 	}
 
@@ -112,23 +130,56 @@ function updateMap(intIndex)
 		console.log("no shape file to load");
 
 	}else{
-		console.log("shape file: "+intIndex);
+		//console.log("shape file: "+intIndex);
 
 		var currentShapefile =  _.where(shapefiles,{title: intIndex});
 		var poly = currentShapefile[0].poly;
-		//console.log(currentShapefile[0]);
 
-		polygonLayer = L.polygon([welt,poly],{color: "#ff7800", weight: 5}).addTo(map);
+		polygonLayer = L.polygon([welt,poly],{color: "#ff7800", weight: 0.1}).addTo(map);
 	};
-
 }
+
+
+function importShape()
+{
+	// adding the new shapefile to the main json
+	$("#pile ul").append("<li><a href='#"+newShapefile.title+"' id='#"+newShapefile.title+"'>"+newShapefile.title+"</a></li>");
+	
+	shapefiles.push(newShapefile);
+
+	updateLayers("#"+newShapefile.title);
+}
+
 
 // Click event on layers
 $("#pile li").click(function() 
 {
+	console.log($(this));
 	updateLayers($(this).find("a").attr("href"));
-	//console.log($(this));
 });
+
+//
+$("#buttons li").click(function() 
+{
+	//console.log($(this).is('.createRegion'));
+
+	var detectedClass = $(this).attr('class');
+
+	switch(detectedClass)
+		{
+		case "createRegion":
+			console.log("-> createRegion");
+			break;
+		case "importShape":
+			console.log("-> importShape");
+			importShape();
+			break;
+		default:
+			console.log("no link");
+		}
+});
+
+
 
 
 

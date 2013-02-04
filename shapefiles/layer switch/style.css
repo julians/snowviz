@@ -6,13 +6,6 @@ html, body {
 
 /*lionel begin*/
 
-/*#pile {
-	position:absolute;
-	left:0px;
-	top:0px;
-	z-index:-1;
-}*/
-
 #pile ul{
 	margin: 0; 
 	padding: 0;
@@ -22,9 +15,9 @@ html, body {
 
 #pile li{
 	margin: 0px 0px 1px 0px;
-	padding: 10px 30px;
+	padding: 10px 35px;
 	display:block;
-	width:180px;
+	width:175px;
 }
 
 li.layerOn{
@@ -34,6 +27,30 @@ li.layerOn{
 
 li.layerOff{
 	background:url("bilder/radio-off.gif");
+}
+
+/*---*/
+
+#buttons ul{
+	margin: 0; 
+	padding: 0;
+	list-style-type: none;  
+	text-align: left;
+}
+
+#buttons li{
+	margin: 0px 0px 1px 0px;
+	padding: 10px 35px;
+	display:block;
+	width:175px;
+}
+
+li.createRegion{
+	background:url("bilder/bg_createRegion.gif");
+}
+
+li.importShape{
+	background:url("bilder/bg_importShape.gif");
 }
 
 /*lionel ende*/

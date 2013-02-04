@@ -12,6 +12,7 @@ app = Flask(__name__)
 
 # should eventually be calculated from the area
 max_snow_points = 169996
+cellsize = 0.0050865689142654
 
 @app.route("/")
 def hello():
@@ -28,7 +29,7 @@ def bydate(datestring):
     
     data = {
         "date": thedate,
-        "cellsize": 0.0050865689142654,
+        "cellsize": cellsize,
         "points": []
     }
     for row in cur.fetchall():

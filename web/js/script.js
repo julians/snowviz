@@ -156,7 +156,7 @@ snowviz.Graph = L.Class.extend({
 	{
 		// set up graph
 		paper.setup($('#snowgraph').get(0));
-		view.onResize = this.redrawGraph;
+		view.onResize = this.redrawGraph.bind(this);
 		this.graphs = {};
 		
 		if (options && options.dataController) {
@@ -173,7 +173,7 @@ snowviz.Graph = L.Class.extend({
 		if (data) {
 			// alte Graphen löschen
 			$.each(self.graphs, function (key, graph) {
-				self.graph.remove();
+				graph.remove();
 			});
 			self.graphs = {};
 			

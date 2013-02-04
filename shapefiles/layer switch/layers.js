@@ -1,5 +1,5 @@
 // ToDo
-// update fitBounds when shapefile gets changed
+//
 
 $(document).ready(function () {
 
@@ -136,6 +136,10 @@ function updateMap(intIndex)
 		var poly = currentShapefile[0].poly;
 
 		polygonLayer = L.polygon([welt,poly],{color: "#ff7800", weight: 0.1}).addTo(map);
+
+		//readjusting the bounds of the map to the selected shape file
+		var positivePoly = L.polygon(poly);
+		map.fitBounds(positivePoly.getBounds());
 	};
 }
 

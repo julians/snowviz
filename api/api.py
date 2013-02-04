@@ -59,7 +59,7 @@ def graph():
     
     data = {
         "startdate": None,
-        "startdate": None,
+        "enddate": None,
         "altitude_ranges": None,
         "max_absolute_snow": None,
         "max_relative_snow": None,
@@ -89,6 +89,8 @@ def graph():
     data["max_absolute_snow"] = max_snow
     data["max_relative_snow"] = max_snow/max_snow_points
     data["altitude_ranges"] = sorted(list(altitude_ranges))
+    data["startdate"] = data["days"][0]["date"]
+    data["enddate"] = data["days"][-1]["date"]
     
     output = json.dumps(data, indent=4, default=date_handler)
     if request.args.get("callback"):

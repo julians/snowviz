@@ -1,4 +1,8 @@
 /* Variables */
+* {
+  margin: 0;
+  padding: 0; }
+
 body {
   font-family: "Helvetica Neue", "Helvetica", "Arial";
   color: white; }
@@ -109,3 +113,32 @@ a.leaflet-control-zoom-out {
   #timeline-controls #download-button {
     float: right;
     margin-right: 20px; }
+
+#download-popup section {
+  margin-bottom: 25px;
+  padding-bottom: 20px; }
+  #download-popup section:not(:last-child) {
+    border-bottom: 1px solid #d4d4d4; }
+  #download-popup section h5 {
+    color: #4583a7;
+    font-size: 12px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    padding: 0; }
+  #download-popup section p {
+    margin: 0;
+    padding: 0;
+    line-height: 1.4em; }
+  #download-popup section h3 {
+    font-size: 1.5em;
+    line-height: 1.3em; }
+
+.spinner {
+  color: transparent !important;
+  background: #40a1da url("../images/spinner.gif") no-repeat 50% !important; }
+
+#data-format-group {
+  margin-top: 35px; }
+  #data-format-group label {
+    display: inline-block;
+    margin: 0px 10px 0px 5px; }

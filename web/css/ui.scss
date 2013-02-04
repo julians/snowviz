@@ -4,7 +4,10 @@ $accent_color: #4cabd3;
 $label_color: #fff;
 $hover_color: #30434b;
 
-
+* {
+	margin: 0;
+	padding: 0;
+}
 
 body {
 	font-family: "Helvetica Neue", "Helvetica", "Arial";
@@ -144,4 +147,46 @@ a.leaflet-control-zoom-out {
 		float: right;
 		margin-right: 20px;
 	}
+}
+
+#download-popup {
+	section {
+		margin-bottom: 25px;
+		padding-bottom: 20px;
+		
+		&:not(:last-child) {
+			border-bottom: 1px solid #d4d4d4;	
+		}
+		h5 {
+			color: #4583a7;
+			font-size: 12px;
+			text-transform: uppercase;
+			margin-bottom: 6px;
+			padding: 0;
+		}
+		p {
+			margin: 0;
+			padding: 0;
+			line-height: 1.4em;
+		}
+		h3 {
+			font-size: 1.5em;
+			line-height: 1.3em;
+		}
+	}
+}
+
+.spinner {
+    color: transparent !important;
+	background: #40a1da url("../images/spinner.gif") no-repeat 50% !important;
+}
+
+#data-format-group {
+	margin-top: 35px;
+
+	label {
+		display: inline-block;
+		margin: 0px 10px 0px 5px;
+	}
+
 }

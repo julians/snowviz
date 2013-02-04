@@ -6,6 +6,7 @@
 		<link rel="stylesheet" href="style.css" />
 		<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.css" />
 		<link rel="stylesheet" href="css/ui.css" />		
+		<link rel="stylesheet" href="css/reveal.css">
 		<!--[if lte IE 8]>
 		    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.ie.css" />
 		<![endif]-->
@@ -15,8 +16,25 @@
 		<script type="text/javascript" src="libs/moment.js"></script>
 		<script type="text/javascript" src="libs/underscore.js"></script>
 		<script type="text/javascript" src="libs/paper.js"></script>
+		<script type="text/javascript" src="js/jquery.reveal.js"></script>
 		<script type="text/javascript" src="js/L.TileLayer.SnowCoverage.js"></script>
 		<script type="text/javascript" src="js/script.js?nocache=true"></script>
+		
+		<script type="text/javascript" charset="utf-8">
+			$(document).on('click', '.action-link', function(e) {
+				// Verzögert den Download, zeigt einen Spinner an, schließt dann das Popup
+				e.preventDefault();
+				var link = $(this);
+				// Spinner anzeigen
+				$(this).addClass('spinner');
+				setTimeout(function () { 
+					// den eigentlichen Download starten
+					document.location.href = link.attr("href");
+					$("#download-popup").trigger('reveal:close');
+					link.removeClass('spinner');					
+				}, 1000);
+			})
+		</script>
 
 	</head>
 	<body>
@@ -48,10 +66,36 @@
 					<input type="radio" name="toggle-zoom" value="" id="toggle-five-years" class="toggle"><label for="toggle-five-years">5 y</label>
 				</div>
 				
-				<a href="#" id="download-button" class="button download-icon">Download Data</a>
+				<a href="#" id="download-button" data-reveal-id="download-popup" data-animation="fade" class="button download-icon">Download Data</a>
 			</div>
 			<canvas id="snowgraph" resize></canvas>
 			<canvas id="snowgraph_interaction" resize></canvas>
+		</div>
+		
+		<div id="download-popup" class="reveal-modal">
+			<h1>Cloud-Free Data Download</h1>
+			<section>
+				<h5>Download Summary</h5>
+				<h3>Kyrgyzstan<br>November 21, 2010 – December 29, 2010</h3>
+			</section>
+			<a href="https://dl.dropbox.com/s/gzzb6wsjz44uqsd/CloudFree-20121202.zip?dl=1" class="action-link">Download</a>
+		    <a class="close-reveal-modal">&#215;</a>
+		<section>
+			<h5>About the Data</h5>
+			<p>This visualization uses ModSnow to generate cloud free data from satellite images from NASA MODIS. The processed data is licensed under some cool license.</p>
+		</section>
+		<section>
+			<h5>Data Format</h5>
+			<p>Please choose the data format that you want to download.</p>
+			<div id="data-format-group">
+				<input type="radio" name="data-format" value="" id="format1" checked>
+				<label for="format1">GeoTIFF</label>
+				<input type="radio" name="data-format" value="" id="format2">
+				<label for="format2">JSON</label>
+				<input type="radio" name="data-format" value="" id="format3">
+				<label for="format3">ASCII</label>
+			</div>
+		</section>
 		</div>
 	</body>
 </html>

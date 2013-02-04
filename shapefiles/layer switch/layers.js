@@ -153,6 +153,7 @@ function importShape()
 	console.log("tmpTitles");
 	console.log(tmpTitles);
 
+	// very basic check to see if the shapefile is already in the pile
 	if(_.contains(tmpTitles, newShapefile.title)){
 		console.log("gibt schon");
 	}else{

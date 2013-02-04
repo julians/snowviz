@@ -53,78 +53,116 @@ snowviz.DataController = L.Class.extend({
 	firstDate: null,
 	lastDate: null,
 	currentDate: null,
-	graphData: null,
+	currentRange: 0,
+	timelineData: null,
 	mapSnowData: null,
 	initialize: function ()
 	{
 		this.firstDate = moment("2012-01-01");
 		this.lastDate = moment("2012-01-01").add("days", 151);
 		this.currentDate = moment("2012-01-01");
+		this.currentRange = 0;
 	},
 	initData: function ()
 	{
 		this.loadDataForCurrentDate();
-		this.loadDataForGraph();
+		this.loadDataForTimeline();
 	},
-	loadDataForGraph: function()
+	loadDataForTimeline: function()
 	{
-		console.log("DataController: loading graph data");
+		console.log("DataController: loading timeline data");
 		var self = this;
 		$.getJSON('http://localhost:5000/graph?callback=?', function(response) {
-			self.graphData = response;
-			self.fireEvent("graphDataChanged");
+			self.timelineData = response;
+			self.fireEvent("timelineDataChanged");
 		});
 	},
 	loadDataForCurrentDate: function()
 	{
 		console.log("DataController: loading data for current date");
 		var self = this;
-		$.getJSON('http://localhost:5000/date/'+this.currentDate.format("YYYY-MM-DD")+'?callback=?', function(data) {
-			//var cellsize = data["cellsize"];
-			console.log("DataController: got some data");
-			self.mapSnowData = data;
-			self.fireEvent("snowDataChanged", {
-				date: data.date
-			});
-		});
+		var params = {
+			startdate: this.currentDate.format("YYYY-MM-DD"),
+			enddate: moment(this.currentDate).add("days", this.currentRange).format("YYYY-MM-DD")
+		};
+		$.getJSON(
+			'http://localhost:5000/daterange?callback=?', params,
+			function(data) {
+				console.log("DataController: got some data");
+				self.mapSnowData = data;
+				self.fireEvent("snowDataChanged", {
+					date: data.date,
+					range: self.currentRange
+				});
+			}
+		);
 	},
 	getMapSnowData: function ()
 	{
 		return this.mapSnowData;
 	},
-	getGraphData: function ()
+	getTimelineData: function ()
 	{
-		return this.graphData;
+		return this.timelineData;
 	},
-	setCurrentDate: function (newDate)
+	setDateAndRange: function (newDate, newRange)
 	{
-		console.log("DataController: setCurrentDate");
-		if (newDate != this.currentDate && newDate >= this.firstDate && newDate <= this.lastDate) {
-			console.log("DataController: date changed");
-			this.currentDate = moment(newDate);
-			this.fireEvent("dateChanged");
-			this.loadDataForCurrentDate();
-			return true;
-		} else {
-			return false;
+		console.log("DataController: setDateAndRange to " + newDate + ", " + newRange);
+		
+		var newDate = moment(newDate);
+		var range = newRange || this.currentRange;
+		var maxRange = this.getMaxPossibleRange();
+		if (range > maxRange) range = maxRange;
+		if (newDate == this.currentDate && range == this.currentRange) {
+			return range;
 		}
+		
+		if (newDate >= this.firstDate && newDate <= this.lastDate) {
+			this.currentDate = newDate;
+		}
+		maxRange = this.getMaxPossibleRange();
+		range = newRange || this.currentRange;
+		if (range > maxRange) range = maxRange;
+		this.currentRange = range;
+		
+		console.log("DataController: date changed");
+		this.fireEvent("dateChanged");
+		this.loadDataForCurrentDate();
+		
+		return range;
+	},
+	setRange: function (range)
+	{
+		var maxRange = this.getMaxPossibleRange
+		if (range > maxRange) {
+			range = maxRange;
+		}
+		this.currentRange = range;
+		this.fireEvent("dateChanged");
+		this.loadDataForCurrentDate();
+		return range;
+	},
+	getMaxPossibleRange: function()
+	{
+		var maxRange = moment.duration(this.lastDate-this.currentDate);
+		return Math.floor(maxRange.asDays());
 	},
 	goToDate: function (newDate)
 	{
 		var newDate = moment(newDate);
-		this.setCurrentDate(newDate);
+		this.setDateAndRange(newDate);
 	},
 	goToNextDate: function ()
 	{
 		console.log("DataController: goToNextDate");
 		var nextDate = moment(this.currentDate).add("days", 1);
-		return this.setCurrentDate(nextDate);
+		return this.setDateAndRange(nextDate);
 	},
 	goToPreviousDate: function ()
 	{
 		console.log("DataController: goToPreviousDate");
 		var previousDate = moment(this.currentDate).subtract("days", 1);
-		return this.setCurrentDate(previousDate);
+		return this.setDateAndRange(previousDate);
 	}
 });
 
@@ -150,8 +188,9 @@ snowviz.KeyboardController = L.Class.extend({
 	}
 });
 
-snowviz.Graph = L.Class.extend({
+snowviz.Timeline = L.Class.extend({
 	includes: L.Mixin.Events,
+	stepSize: 0,
 	initialize: function (options)
 	{
 		// set up graph
@@ -160,16 +199,16 @@ snowviz.Graph = L.Class.extend({
 		this.graphs = {};
 		
 		if (options && options.dataController) {
-			console.log("Graph: registering dataController")
+			console.log("Timeline: registering dataController")
 			this.dataController = options.dataController;
-			this.dataController.addEventListener("graphDataChanged", this.redrawGraph.bind(this));
+			this.dataController.addEventListener("timelineDataChanged", this.redrawGraph.bind(this));
 		}
 	},
 	redrawGraph: function ()
 	{
 		var self = this;
 		paper.projects[0].activate();
-		var data = self.dataController.getGraphData();
+		var data = self.dataController.getTimelineData();
 		if (data) {
 			// alte Graphen löschen
 			$.each(self.graphs, function (key, graph) {
@@ -180,6 +219,7 @@ snowviz.Graph = L.Class.extend({
 			// figure out how many pixels apart we need to put each data point for the graph,
 			// and the vertical scale
 			var stepSize = view.viewSize.width / (data["days"].length-1);
+			self.stepSize = stepSize;
 			var yScale = view.viewSize.height;
 			// coordinate system starts top left, so we want to subtract the item values from the height
 			var h = view.viewSize.height;
@@ -224,7 +264,7 @@ snowviz.Graph = L.Class.extend({
 		}
 	}
 });
-snowviz.GraphInteraction = L.Class.extend({
+snowviz.TimelineInteraction = L.Class.extend({
 	hoverHighlight: null,
 	hoverHighlightStyle: null,
 	hoverHighlightText: null,
@@ -250,7 +290,7 @@ snowviz.GraphInteraction = L.Class.extend({
 		this.hoverpointer.onMouseUp = this.hoverPointerClicked.bind(this);
 		
 		if (options && options.dataController) {
-			console.log("GraphInteraction: registering dataController")
+			console.log("TimelineInteraction: registering dataController")
 			this.dataController = options.dataController;
 		}
 	},
@@ -258,18 +298,18 @@ snowviz.GraphInteraction = L.Class.extend({
 	{
 		paper.projects[1].activate();
 		// if event is inside canvas AND we have data
-		if (event.point.x >= 0 && event.point.x <= view.viewSize.width && event.point.y >= 0 && event.point.y <= view.viewSize.height && this.dataController.getGraphData()) {
-			var dayData = this.getGraphDataForPosition(this.dataController.getGraphData(), event.point.x);
+		if (event.point.x >= 0 && event.point.x <= view.viewSize.width && event.point.y >= 0 && event.point.y <= view.viewSize.height && this.dataController.getTimelineData()) {
+			var dayData = this.getTimelineDataForPosition(this.dataController.getTimelineData(), event.point.x);
 			this.dataController.goToDate(dayData["day"]["date"]);
 		}
 	},
 	drawHoverPointer: function (event)
 	{
 		paper.projects[1].activate();
-		var data = this.dataController.graphData;
+		var data = this.dataController.timelineData;
 		// if event is inside canvas AND we have data
 		if (event.point.x >= 0 && event.point.x <= view.viewSize.width && event.point.y >= 0 && event.point.y <= view.viewSize.height && data) {
-			var dayData = this.getGraphDataForPosition(data, event.point.x);
+			var dayData = this.getTimelineDataForPosition(data, event.point.x);
 			var stepSize = view.viewSize.width / (data["days"].length-1);
 			this.hoverHighlight.removeSegments();
 			this.hoverHighlight = new Path.Rectangle(new Rectangle(dayData["index"]*stepSize, 0, stepSize, view.viewSize.height));
@@ -283,7 +323,7 @@ snowviz.GraphInteraction = L.Class.extend({
 			this.hoverHighlightText.visible = false;
 		}
 	},
-	getGraphDataForPosition: function (data, x)
+	getTimelineDataForPosition: function (data, x)
 	{
 		var stepSize = view.viewSize.width / (data["days"].length-1);
 		var dayIndex = Math.floor(x/stepSize);
@@ -303,6 +343,89 @@ snowviz.GraphInteraction = L.Class.extend({
 		} else {
 			text.paragraphStyle.justification = "left";
 			text.setPoint(new Point(index*stepSize+stepSize+hPadding, vPadding));
+		}
+	}
+});
+
+snowviz.TimelineRangePicker = L.Class.extend({
+	includes: L.Mixin.Events,
+	timeline: null,
+	dataController: null,
+	picker: null,
+	initialize: function (options)
+	{
+		var self = this;
+		this.timeline = options.timeline;
+		this.dataController = options.dataController;
+		this.picker = $("#rangepickerPicker");
+		this.picker.resizable({
+			containment: "parent",
+			handles: "e, w",
+			resize: this.duringResize.bind(this),
+			stop: this.afterResize.bind(this)
+		});
+		this.picker.draggable({
+			axis: "x",
+			containment: "parent",
+			drag: this.duringDrag.bind(this),
+			stop: this.afterDrag.bind(this)
+		});
+		this.updatePickers();
+		this.dataController.addEventListener("timelineDataChanged", this.updatePickers.bind(this));
+	},
+	duringResize: function (event, ui)
+	{
+		console.log("picker resize");
+	},
+	afterResize: function (event, ui)
+	{
+		console.log("picker resize stop");
+		this.afterInteraction(event, ui);
+	},
+	duringDrag: function (event, ui)
+	{
+		console.log("picker drag");
+	},
+	afterDrag: function (event, ui)
+	{
+		console.log("picker drag stop");
+		this.afterInteraction(event, ui);
+	},
+	afterInteraction: function (event, ui)
+	{
+		console.log("picker after interaction");
+		var startdate = this.getTimelineDataForPosition(ui.position.left);
+		var enddate = this.getTimelineDataForPosition(ui.position.left+this.picker.width());
+		console.log(startdate["day"]["date"]);
+		console.log(enddate["day"]["date"]);
+		
+		this.dataController.setDateAndRange(startdate["day"]["date"], enddate["index"]-startdate["index"]);
+		
+	},
+	getTimelineDataForPosition: function (x)
+	{
+		var data = this.dataController.getTimelineData();
+		var stepSize = view.viewSize.width / (data["days"].length-1);
+		var dayIndex = Math.floor(x/stepSize);
+		return {
+			"day": data["days"][dayIndex],
+			"index": dayIndex
+		}
+	},
+	updatePickers: function ()
+	{
+		if (this.dataController.getTimelineData()) {
+			console.log(this.timeline.stepSize);
+			if (this.picker.width() == 0) this.picker.width(this.timeline.stepSize+"px");
+			this.picker.draggable("enable");
+			this.picker.draggable("option", "grid", [this.timeline.stepSize, 0]);
+			this.picker.resizable("enable");
+			this.picker.resizable("option", "grid", [this.timeline.stepSize, 0]);
+			this.picker.show();
+		} else {
+			this.picker.draggable("disable");
+			this.picker.resizable("disable");
+			this.picker.hide();
 		}
 	}
 })
@@ -475,19 +598,27 @@ snowviz.App = L.Class.extend({
 	initialize: function ()
 	{
 		this.dataController = new snowviz.DataController();
+		/*
 		this.keyboardController = new snowviz.KeyboardController({
 			dataController: this.dataController
 		});
+		*/
 		this.mapView = new snowviz.MapView({
 			dataController: this.dataController
 		});
 		paper.install(window);
-		this.graph = new snowviz.Graph({
+		this.timeline = new snowviz.Timeline({
 			dataController: this.dataController
 		});
-		this.graphInteraction = new snowviz.GraphInteraction({
+		/*
+		this.timelineInteraction = new snowviz.TimelineInteraction({
 			dataController: this.dataController
 		});
+		*/
+		this.timelineRangePicker = new snowviz.TimelineRangePicker({
+			timeline: this.timeline,
+			dataController: this.dataController
+		})
 		this.dataController.initData();
 		this.shapefileManager = new snowviz.ShapefileManager();
 	}

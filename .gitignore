@@ -1,2 +1,3 @@
 *.otf
 .DS_Store
+.sass-cache

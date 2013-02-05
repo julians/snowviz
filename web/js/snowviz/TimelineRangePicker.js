@@ -34,12 +34,14 @@ snowviz.TimelineRangePicker = L.Class.extend({
 		var range = this.dataController.currentRange;
 		
 		var data = this.dataController.getTimelineData();
-		var stepSize = view.viewSize.width / (data["days"].length-1);
+		if (data) {
+			var stepSize = view.viewSize.width / (data["days"].length-1);
 		
-		this.picker.css({
-			"left": (stepSize*startdateIndex)+"px",
-			"width": (stepSize*(range+1))+"px"
-		});
+			this.picker.css({
+				"left": (stepSize*startdateIndex)+"px",
+				"width": (stepSize*(range+1))+"px"
+			});
+		}
 	},
 	duringResize: function (event, ui)
 	{

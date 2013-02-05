@@ -11,7 +11,7 @@
 		    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.ie.css" />
 		<![endif]-->
 		<script src="http://cdn.leafletjs.com/leaflet-0.5/leaflet.js"></script>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>		
 		<script src="libs/jqueryui/jquery-ui-1.10.0.custom.js"></script>
 		<script type="text/javascript" src="libs/QuadTree.js"></script>
 		<script type="text/javascript" src="libs/moment.js"></script>
@@ -48,7 +48,8 @@
 				});
 				// Wenn eine Datei ausgewählt wird, schauen wir mal was es denn für eine ist
 
-				$(document).on('change', '#fileinput', function(e) {
+				$(document).on('change', '#fileinput', function(e) {    
+				    $("#add-area-popup").reveal({});
 					for (var i = 0; i < e.target.files.length; i++) {
 						var filename = e.target.files[i].name;
 						var ext = filename.substr(filename.lastIndexOf('.') + 1);
@@ -60,7 +61,7 @@
 
 				// Wenn man auf den Link klickt, wird einfach das echte File-Input-Element "geklickt". Das echte File-Input sollte man natürlich noch mit display: none verstecken.
 
-				$(document).on('click', '#open-import', function() {
+				$(document).on('click', '#importShape', function() {
 				    $('#fileinput').click();
 				});
 			</script>
@@ -113,7 +114,7 @@
 				<div id="buttons">
 					<ul>
 						<li class='createRegion'><a href='#' id='createRegion'>Create Area of Interest</a></li>
-						<li class='importShape'><a href='#' id='importShape' data-reveal-id="add-area-popup" data-animation="fade">Import File</a></li>
+						<li class='importShape'><a href='#' id='importShape' data-animation="fade">Import Shapefile (*.shp)</a></li>
 					</ul>
 				</div>
 				<br/>
@@ -149,26 +150,24 @@
 					</div>
 				</section>
 			</div>
-			<div id="add-area-popup" class="reveal-modal popup">
-			      <h1>Add an Area of Interest</h1>
-			    <section>
-			        <h5>Import Shapefile</h5>
-			        <p>Please use .shp files only</p>
-			    </section>
-			    <a href="#" class="action-link" id="open-import">Browse file</a>
-			<a class="close-reveal-modal">&#215;</a>
+			<div id="add-area-popup-bla" class="reveal-modal popup">
+                <h1>Add an Area of Interest</h1>
+                <section>
+                 <h5>Import Shapefile</h5>
+                 <p>Please use .shp files only</p>
+             </section>
+             <a href="#" class="action-link" id="open-import">Browse file</a>
+             <a class="close-reveal-modal">&#215;</a>
 			</div>
-
-
-			<div id="add-area-success-popup" class="reveal-modal">
-			      <h1>Add an Area of Interest</h1>
-			    <section>
-			        <h5>Success</h5>
-			        <h3>Congratulation! Your file xxx has been successfuly uploaded</h3>
-			        <p>You can rename your layer</p>
-			        <input type="text" name="q" id="command-bar" placeholder="xxx">
-			    </section>
-			    <a href="#" class="action-link">Add area</a>
+			<div id="add-area-popup" class="reveal-modal">
+                <h1>Add an Area of Interest</h1>
+                <section>
+                    <h5>Success</h5>
+                    <h3>Congratulation! Your file has been successfuly uploaded!</h3>
+                    <p>You can rename your layer</p>
+                    <input type="text" name="q" id="command-bar" placeholder="border">
+                </section>
+                <a href="#" class="action-link">Add area</a>
 			</div>
 		</body>
 	</html>

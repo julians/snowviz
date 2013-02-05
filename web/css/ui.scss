@@ -244,7 +244,7 @@ a.leaflet-control-zoom-out {
 	}
 }
 
-#download-popup, #add-area-popup {
+.reveal-modal {
 	section {
 		margin-bottom: 25px;
 		padding-bottom: 20px;
@@ -268,8 +268,15 @@ a.leaflet-control-zoom-out {
 			font-size: 1.5em;
 			line-height: 1.3em;
 		}
+		input {
+		    margin-top: 12px;
+		    height: 24px;
+		}
 	}
-	.action-link {
+}
+
+#download-popup {
+    .action-link {
 		background-color: #67a034;
 		&:hover {
 			background-color: #73b33a;
@@ -376,3 +383,11 @@ li.importShape{
 
 /*lionel ende*/
 
+#loading-indicator {
+    bottom: 0;
+    position: absolute;
+    z-index: 1337;
+    width: 100%;
+    height: 100px;
+    background: rgba(0, 0, 0, 0.5);
+}

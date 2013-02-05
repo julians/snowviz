@@ -17,6 +17,7 @@ snowviz.DataController = L.Class.extend({
 	},
 	initData: function ()
 	{
+		this.fireEvent("dateChanged");
 		this.loadDataForCurrentDate();
 		this.loadDataForTimeline();
 	},

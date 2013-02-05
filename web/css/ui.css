@@ -193,27 +193,31 @@ a.leaflet-control-zoom-out {
     #timeline-controls #download-button:hover {
       background-color: #73b33a; }
 
-#download-popup section, #add-area-popup section {
+.reveal-modal section {
   margin-bottom: 25px;
   padding-bottom: 20px; }
-  #download-popup section:not(:last-child), #add-area-popup section:not(:last-child) {
+  .reveal-modal section:not(:last-child) {
     border-bottom: 1px solid #d4d4d4; }
-  #download-popup section h5, #add-area-popup section h5 {
+  .reveal-modal section h5 {
     color: #4583a7;
     font-size: 12px;
     text-transform: uppercase;
     margin-bottom: 6px;
     padding: 0; }
-  #download-popup section p, #add-area-popup section p {
+  .reveal-modal section p {
     margin: 0;
     padding: 0;
     line-height: 1.4em; }
-  #download-popup section h3, #add-area-popup section h3 {
+  .reveal-modal section h3 {
     font-size: 1.5em;
     line-height: 1.3em; }
-#download-popup .action-link, #add-area-popup .action-link {
+  .reveal-modal section input {
+    margin-top: 12px;
+    height: 24px; }
+
+#download-popup .action-link {
   background-color: #67a034; }
-  #download-popup .action-link:hover, #add-area-popup .action-link:hover {
+  #download-popup .action-link:hover {
     background-color: #73b33a; }
 
 .spinner {
@@ -287,3 +291,10 @@ li.importShape {
   background: url("../images/bg_importShape.gif"); }
 
 /*lionel ende*/
+#loading-indicator {
+  bottom: 0;
+  position: absolute;
+  z-index: 1337;
+  width: 100%;
+  height: 100px;
+  background: rgba(0, 0, 0, 0.5); }

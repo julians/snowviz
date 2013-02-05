@@ -25,6 +25,21 @@ snowviz.TimelineRangePicker = L.Class.extend({
 		});
 		this.updatePickers();
 		this.dataController.addEventListener("timelineDataChanged", this.updatePickers.bind(this));
+		this.dataController.addEventListener("dateChanged", this.redrawPickers.bind(this));
+	},
+	redrawPickers: function ()
+	{
+		var startdate = this.dataController.currentDate;
+		var startdateIndex = this.dataController.getCurrentDateOffset();
+		var range = this.dataController.currentRange;
+		
+		var data = this.dataController.getTimelineData();
+		var stepSize = view.viewSize.width / (data["days"].length-1);
+		
+		this.picker.css({
+			"left": (stepSize*startdateIndex)+"px",
+			"width": (stepSize*(range+1))+"px"
+		});
 	},
 	duringResize: function (event, ui)
 	{

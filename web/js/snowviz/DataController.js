@@ -83,6 +83,11 @@ snowviz.DataController = L.Class.extend({
 		
 		return range;
 	},
+	getCurrentDateOffset: function ()
+	{
+		var startdateIndex = moment.duration(this.currentDate-this.firstDate);
+		return Math.floor(startdateIndex.asDays());
+	},
 	setRange: function (range)
 	{
 		var maxRange = this.getMaxPossibleRange

@@ -29,7 +29,10 @@ snowviz.App = L.Class.extend({
 		this.timelineRangePicker = new snowviz.TimelineRangePicker({
 			timeline: this.timeline,
 			dataController: this.dataController
-		})
+		});
+		this.timelineZoomSelector = new snowviz.TimelineZoomSelector({
+			dataController: this.dataController
+		});
 		this.dataController.initData();
 		this.shapefileManager = new snowviz.ShapefileManager();
 	}

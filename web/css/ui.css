@@ -37,21 +37,21 @@ body {
     margin-bottom: 30px; }
 
 #map_container {
-  height: 75%; }
+  height: 70%; }
 
 #map {
   height: 100%;
   background-color: #2a303a; }
 
 #timeline {
-  height: 25%;
+  height: 30%;
   position: relative; }
 
 #rangepickerBox {
   position: absolute;
   left: 0;
   right: 0;
-  top: 0;
+  top: 42px;
   bottom: 0; }
 
 #timeline canvas {
@@ -123,11 +123,12 @@ a.leaflet-control-zoom-out {
 /* Menu */
 #timeline-controls {
   position: relative;
-  top: -42px;
+  top: 0;
   width: 100%;
   height: 42px;
   background: #292929;
-  padding-left: 15px; }
+  padding-left: 15px;
+  box-sizing: border-box; }
   #timeline-controls label {
     color: white;
     background-color: #30434b;

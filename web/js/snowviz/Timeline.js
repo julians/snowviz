@@ -52,9 +52,9 @@ snowviz.Timeline = L.Class.extend({
 			_.each(altitudeStrings, function (altitude, altitudeIndex) {
 				self.graphs[altitude] = new Path();
 				self.graphs[altitude].fillColor = new HSLColor(
-					0,
-					0,
-					1-(1/(altitudeStrings.length-1)*altitudeIndex)
+					202,
+					.67,
+					.5+(.5/(altitudeStrings.length-1)*altitudeIndex)
 				);
 				for (var i = altitudeSums.length - 1; i >= 0; i--) {
 					self.graphs[altitude].add(new Point(i*stepSize, h-h*altitudeSums[i]));

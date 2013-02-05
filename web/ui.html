@@ -34,7 +34,24 @@
 					$("#download-popup").trigger('reveal:close');
 					link.removeClass('spinner');					
 				}, 1000);
-			})
+			});
+			// Wenn eine Datei ausgewählt wird, schauen wir mal was es denn für eine ist
+
+			$(document).on('change', '#fileinput', function(e) {
+				for (var i = 0; i < e.target.files.length; i++) {
+					var filename = e.target.files[i].name;
+					var ext = filename.substr(filename.lastIndexOf('.') + 1);
+					
+					// Hier sollte man mal schauen, ob es auch ein Shapefile ist
+					snowviz.app.shapefileManager.importShape();
+			    }
+			});
+
+			// Wenn man auf den Link klickt, wird einfach das echte File-Input-Element "geklickt". Das echte File-Input sollte man natürlich noch mit display: none verstecken.
+
+			$(document).on('click', '#importShape', function() {
+			    $('#fileinput').click();
+			});
 		</script>
 
 	</head>
@@ -79,9 +96,12 @@
 		</div>
 		
 		<div id="overlay">
+			<input type="file" id="fileinput" />
+			<h3>Area of Interest</h3>
+			<a  href="#" class="close-button">&#215;</a>
 			<div id="buttons">
 				<ul>
-					<li class='createRegion'><a href='#' id='createRegion'>Create Region of Interest</a></li>
+					<li class='createRegion'><a href='#' id='createRegion'>Create Area of Interest</a></li>
 					<li class='importShape'><a href='#' id='importShape'>Import File</a></li>
 				</ul>
 			</div>

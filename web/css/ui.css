@@ -13,13 +13,28 @@ body {
   color: white; }
 
 #overlay {
+  background: #292929;
+  padding-left: 15px;
   position: absolute;
   top: 20px;
   right: 20px;
-  text-align: right;
-  background-color: rgba(0, 0, 0, 0.2);
-  border-radius: 5px;
-  padding: 5px; }
+  padding: 15px; }
+  #overlay .close-button {
+    display: block;
+    text-align: right;
+    font-weight: bold;
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    color: white;
+    text-decoration: none; }
+  #overlay #fileinput {
+    display: none; }
+  #overlay h3 {
+    text-align: left;
+    font-size: 13px;
+    text-transform: uppercase;
+    margin-bottom: 30px; }
 
 #map_container {
   height: 75%; }
@@ -172,7 +187,10 @@ a.leaflet-control-zoom-out {
       background-position: 0px -52px; }
   #timeline-controls #download-button {
     float: right;
-    margin-right: 20px; }
+    margin-right: 20px;
+    background-color: #67a034; }
+    #timeline-controls #download-button:hover {
+      background-color: #73b33a; }
 
 #download-popup section {
   margin-bottom: 25px;
@@ -192,10 +210,14 @@ a.leaflet-control-zoom-out {
   #download-popup section h3 {
     font-size: 1.5em;
     line-height: 1.3em; }
+#download-popup .action-link {
+  background-color: #67a034; }
+  #download-popup .action-link:hover {
+    background-color: #73b33a; }
 
 .spinner {
   color: transparent !important;
-  background: #40a1da url("../images/spinner.gif") no-repeat 50% !important; }
+  background: #73b33a url("../images/spinner.gif") no-repeat 50% !important; }
 
 #data-format-group {
   margin-top: 35px; }
@@ -204,25 +226,47 @@ a.leaflet-control-zoom-out {
     margin: 0px 10px 0px 5px; }
 
 /*lionel begin*/
-#pile ul {
-  margin: 0;
-  padding: 0;
-  list-style-type: none;
-  text-align: left; }
-
-#pile li {
-  margin: 0px 0px 1px 0px;
-  padding: 10px 35px;
-  display: block;
-  width: 175px; }
+#pile {
+  background: #365866; }
+  #pile ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    text-align: left; }
+  #pile li {
+    margin: 0px 0px 1px 0px;
+    padding: 10px 35px;
+    display: block;
+    width: 175px;
+    background: #30434b;
+    -webkit-transition: background-color 0.1s ease-in; }
+    #pile li:hover {
+      background-color: #3a515b; }
+    #pile li.layerOn {
+      background-color: #4cabd3; }
+  #pile a {
+    color: white;
+    text-decoration: none;
+    font-size: 13px; }
 
 li.layerOn {
-  background: url("../images/radio-on.gif"); }
+  background-image: url("../images/radio-on.gif"); }
 
 li.layerOff {
-  background: url("../images/radio-off.gif"); }
+  background-image: url("../images/radio-off.gif"); }
 
 /*---*/
+#buttons ul li {
+  background: #30434b;
+  margin-bottom: 8px;
+  -webkit-transition: background-color 0.1s ease-in; }
+  #buttons ul li:hover {
+    background-color: #3a515b; }
+  #buttons ul li a {
+    font-size: 13px;
+    color: white;
+    text-decoration: none; }
+
 #buttons ul {
   margin: 0;
   padding: 0;

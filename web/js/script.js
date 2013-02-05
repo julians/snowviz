@@ -497,6 +497,7 @@ snowviz.ShapefileManager = L.Class.extend({
 		//
 		$("#buttons li").on("click",function() 
 		{
+			var self = this;
 			var detectedClass = $(this).attr('class');
 
 			switch(detectedClass)
@@ -505,8 +506,8 @@ snowviz.ShapefileManager = L.Class.extend({
 					console.log("-> createRegion");
 					break;
 				case "importShape":
-					console.log("-> importShape");
-					importShape();
+					console.log("-> importShape disabled");
+					// importShape();
 					break;
 				default:
 					console.log("no link");

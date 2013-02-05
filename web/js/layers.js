@@ -66,6 +66,7 @@ var LayerManager = {
 		//
 		$("#buttons li").on("click",function() 
 		{
+			self = this;
 			var detectedClass = $(this).attr('class');
 
 			switch(detectedClass)
@@ -75,7 +76,7 @@ var LayerManager = {
 					break;
 				case "importShape":
 					console.log("-> importShape");
-					importShape();
+					// self.importShape();
 					break;
 				default:
 					console.log("no link");

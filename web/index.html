@@ -60,7 +60,7 @@
 
 				// Wenn man auf den Link klickt, wird einfach das echte File-Input-Element "geklickt". Das echte File-Input sollte man natürlich noch mit display: none verstecken.
 
-				$(document).on('click', '#importShape', function() {
+				$(document).on('click', '#open-import', function() {
 				    $('#fileinput').click();
 				});
 			</script>
@@ -113,7 +113,7 @@
 				<div id="buttons">
 					<ul>
 						<li class='createRegion'><a href='#' id='createRegion'>Create Area of Interest</a></li>
-						<li class='importShape'><a href='#' id='importShape'>Import File</a></li>
+						<li class='importShape'><a href='#' id='importShape' data-reveal-id="add-area-popup" data-animation="fade">Import File</a></li>
 					</ul>
 				</div>
 				<br/>
@@ -124,7 +124,7 @@
 				</div>
 			</div>
 
-			<div id="download-popup" class="reveal-modal">
+			<div id="download-popup" class="reveal-modal popup">
 				<h1>Cloud-Free Data Download</h1>
 				<section>
 					<h5>Download Summary</h5>
@@ -148,6 +148,27 @@
 						<label for="format3">ASCII</label>
 					</div>
 				</section>
+			</div>
+			<div id="add-area-popup" class="reveal-modal popup">
+			      <h1>Add an Area of Interest</h1>
+			    <section>
+			        <h5>Import Shapefile</h5>
+			        <p>Please use .shp files only</p>
+			    </section>
+			    <a href="#" class="action-link" id="open-import">Browse file</a>
+			<a class="close-reveal-modal">&#215;</a>
+			</div>
+
+
+			<div id="add-area-success-popup" class="reveal-modal">
+			      <h1>Add an Area of Interest</h1>
+			    <section>
+			        <h5>Success</h5>
+			        <h3>Congratulation! Your file xxx has been successfuly uploaded</h3>
+			        <p>You can rename your layer</p>
+			        <input type="text" name="q" id="command-bar" placeholder="xxx">
+			    </section>
+			    <a href="#" class="action-link">Add area</a>
 			</div>
 		</body>
 	</html>

@@ -1,6 +1,7 @@
 var snowviz = snowviz || {};
 
 snowviz.ShapefileManager = L.Class.extend({
+	mapView: null, 
 	shapefiles: [
 		{ 
 			title: "North",
@@ -50,11 +51,12 @@ snowviz.ShapefileManager = L.Class.extend({
 	polygonLayer: null,
 	add1: 1572/2*0.0050865689142654,
 	add2: 151*0.0050865689142654,
-	initialize: function() {
+	initialize: function(options) {
 		console.log("init Layermanager");
 		this.initEvents();
 		this.initShapefiles();
 		this.updateLayers(this.currentLayer);	
+		this.mapView = options.mapView;
 	},
 	initEvents: function () {
 		// Click event on layers
@@ -120,7 +122,7 @@ snowviz.ShapefileManager = L.Class.extend({
 
 		if(this.polygonLayer){
 			console.log("deletation of the current outline");
-			snowviz.MapView.map.removeLayer(polygonLayer);
+			this.mapView.removeLayer(polygonLayer);
 		}
 
 		if (intIndex == "Bounds") 
@@ -131,12 +133,12 @@ snowviz.ShapefileManager = L.Class.extend({
 
 			var currentShapefile =  _.where(this.shapefiles,{title: intIndex});
 			var poly = currentShapefile[0].poly;
-
-			this.polygonLayer = L.polygon([this.welt,poly],{color: "#ff7800", weight: 0.1}).addTo(snowviz.MapView.map);
+			
+			this.polygonLayer = L.polygon([this.welt,poly],{color: "#ff7800", weight: 0.1}).addTo(this.mapView);
 
 			//readjusting the bounds of the map to the selected shape file
 			var positivePoly = L.polygon(poly);
-			snowviz.MapView.map.fitBounds(positivePoly.getBounds());
+			this.mapView.fitBounds(positivePoly.getBounds());
 		};
 	}, 
 	importShape: function () {

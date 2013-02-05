@@ -37,6 +37,8 @@ snowviz.App = L.Class.extend({
 			dataController: this.dataController
 		});
 		this.dataController.initData();
-		this.shapefileManager = new snowviz.ShapefileManager();
+		this.shapefileManager = new snowviz.ShapefileManager({
+			mapView: this.mapView
+		});
 	}
 });

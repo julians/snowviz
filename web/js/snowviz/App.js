@@ -33,6 +33,9 @@ snowviz.App = L.Class.extend({
 		this.timelineZoomSelector = new snowviz.TimelineZoomSelector({
 			dataController: this.dataController
 		});
+		this.timelineTextualDateDisplay = new snowviz.TimelineTextualDateDisplay({
+			dataController: this.dataController
+		});
 		this.dataController.initData();
 		this.shapefileManager = new snowviz.ShapefileManager();
 	}

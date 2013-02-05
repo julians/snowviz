@@ -78,7 +78,7 @@ body {
 #rangepickerPicker {
   position: absolute;
   top: 0;
-  bottom: 0;
+  bottom: -1px;
   width: 0;
   background: rgba(255, 0, 0, 0.5); }
 

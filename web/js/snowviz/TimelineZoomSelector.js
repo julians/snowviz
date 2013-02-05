@@ -19,17 +19,17 @@ snowviz.TimelineZoomSelector = L.Class.extend({
 				this.dataController.setRange(0);
 			  	break;
 			case "week":
-				this.dataController.setRange(7);
+				this.dataController.setRange(6);
 			  	break;
 			case "month":
-				this.dataController.setRange(30);
+				this.dataController.setRange(29);
 			  	break;
 			case "year":
-				this.dataController.setRange(365);
+				this.dataController.setRange(364);
 			  	break;
 			case "5years":
 				// super-scientific leap year calculation ;)
-				this.dataController.setRange(365*5+1);
+				this.dataController.setRange(365*5);
 			  	break;
 		}
 	},
@@ -41,16 +41,16 @@ snowviz.TimelineZoomSelector = L.Class.extend({
 			case 0:
 				this.inputs.filter("[value=day]").attr("checked", true);
 			  	break;
-			case 7:
+			case 6:
 				this.inputs.filter("[value=week]").attr("checked", true);
 			  	break;
-			case 30:
+			case 29:
 				this.inputs.filter("[value=month]").attr("checked", true);
 			  	break;
-			case 365:
+			case 364:
 				this.inputs.filter("[value=year]").attr("checked", true);
 			  	break;
-			case 365*5+1:
+			case 365*5:
 				// super-scientific leap year calculation ;)
 				this.inputs.filter("[value=5years]").attr("checked", true);
 			  	break;

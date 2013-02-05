@@ -15,7 +15,7 @@ snowviz.TimelineTextualDateDisplay = L.Class.extend({
 		var range = this.dataController.currentRange;
 		var enddate = moment(startdate).add("days", range);
 		
-		this.startdateLabel.html(startdate.format("MMM D, YYYY"));
-		this.enddateLabel.html(enddate.format("MMM D, YYYY"));
+		this.startdateLabel.html(startdate.format("MMM D ’YY"));
+		this.enddateLabel.html(enddate.format("MMM D ’YY"));
 	}
 });

@@ -195,7 +195,7 @@ a.leaflet-control-zoom-out {
 		float: left;
 		display: inline-block;
 		border-right: 1px solid rgba(255, 255, 255, 0.1);
-		margin-right: 15px;
+		margin-right: 7px;
 		padding-right: 20px;
 	}
 	
@@ -236,7 +236,7 @@ a.leaflet-control-zoom-out {
 	}
 	#download-button {
 		float: right;
-		margin-right: 20px;
+		margin-right: 14px;
 		background-color: #67a034;
 		&:hover {
 			background-color: lighten(#67a034, 5%)

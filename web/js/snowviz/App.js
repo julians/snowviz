@@ -1,6 +1,7 @@
 var snowviz = snowviz || {};
 
 snowviz.App = L.Class.extend({
+	includes: L.Mixin.Events,
 	dataController: null,
 	keyboardController: null,
 	mapView: null,
@@ -8,6 +9,8 @@ snowviz.App = L.Class.extend({
 	shapefileManager: null,
 	initialize: function ()
 	{
+		$(window).resize(this.resized.bind(this));
+		
 		this.dataController = new snowviz.DataController();
 		/*
 		this.keyboardController = new snowviz.KeyboardController({
@@ -17,9 +20,9 @@ snowviz.App = L.Class.extend({
 		this.mapView = new snowviz.MapView({
 			dataController: this.dataController
 		});
-		paper.install(window);
 		this.timeline = new snowviz.Timeline({
-			dataController: this.dataController
+			dataController: this.dataController,
+			app: this
 		});
 		/*
 		this.timelineInteraction = new snowviz.TimelineInteraction({
@@ -28,17 +31,27 @@ snowviz.App = L.Class.extend({
 		*/
 		this.timelineRangePicker = new snowviz.TimelineRangePicker({
 			timeline: this.timeline,
-			dataController: this.dataController
+			dataController: this.dataController,
+			app: this
 		});
 		this.timelineZoomSelector = new snowviz.TimelineZoomSelector({
-			dataController: this.dataController
+			dataController: this.dataController,
+			app: this
 		});
 		this.timelineTextualDateDisplay = new snowviz.TimelineTextualDateDisplay({
-			dataController: this.dataController
+			dataController: this.dataController,
+			app: this
 		});
 		this.dataController.initData();
 		this.shapefileManager = new snowviz.ShapefileManager({
-			mapView: this.mapView
+			mapView: this.mapView,
+			app: this
 		});
+	},
+	resized: function (event)
+	{
+		if (event.target && event.target == window) {
+			this.fireEvent("uiResize");
+		}
 	}
 });

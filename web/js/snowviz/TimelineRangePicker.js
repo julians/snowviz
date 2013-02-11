@@ -26,16 +26,18 @@ snowviz.TimelineRangePicker = L.Class.extend({
 		this.updatePickers();
 		this.dataController.addEventListener("timelineDataChanged", this.updatePickers.bind(this));
 		this.dataController.addEventListener("dateChanged", this.redrawPickers.bind(this));
+		this.timeline.addEventListener("timelineRedrawn", this.redrawPickers.bind(this));
 	},
 	redrawPickers: function ()
-	{
-		var startdate = this.dataController.currentDate;
-		var startdateIndex = this.dataController.getCurrentDateOffset();
-		var range = this.dataController.currentRange;
-		
+	{	
 		var data = this.dataController.getTimelineData();
 		if (data) {
-			var stepSize = view.viewSize.width / (data["days"].length-1);
+			console.log("redrawing pickers");
+			var startdate = this.dataController.currentDate;
+			var startdateIndex = this.dataController.getCurrentDateOffset();
+			var range = this.dataController.currentRange;
+			
+			var stepSize = this.timeline.getWidth() / (data["days"].length-1);
 		
 			this.picker.css({
 				"left": (stepSize*startdateIndex)+"px",
@@ -75,7 +77,7 @@ snowviz.TimelineRangePicker = L.Class.extend({
 	getTimelineDataForPosition: function (x)
 	{
 		var data = this.dataController.getTimelineData();
-		var stepSize = view.viewSize.width / (data["days"].length-1);
+		var stepSize = this.timeline.getWidth() / (data["days"].length-1);
 		var dayIndex = Math.floor(x/stepSize);
 		return {
 			"day": data["days"][dayIndex],
@@ -92,6 +94,7 @@ snowviz.TimelineRangePicker = L.Class.extend({
 			this.picker.resizable("enable");
 			this.picker.resizable("option", "grid", [this.timeline.stepSize, 0]);
 			this.picker.show();
+			this.redrawPickers();
 		} else {
 			this.picker.draggable("disable");
 			this.picker.resizable("disable");

@@ -37,7 +37,7 @@ snowviz.TimelineRangePicker = L.Class.extend({
 			var startdateIndex = this.dataController.getCurrentDateOffset();
 			var range = this.dataController.currentRange;
 			
-			var stepSize = this.timeline.getWidth() / (data["days"].length-1);
+			var stepSize = this.timeline.getStepSize();
 		
 			this.picker.css({
 				"left": (stepSize*startdateIndex)+"px",
@@ -52,7 +52,13 @@ snowviz.TimelineRangePicker = L.Class.extend({
 	afterResize: function (event, ui)
 	{
 		console.log("picker resize stop");
-		this.afterInteraction(event, ui);
+		var offset = this.timeline.getStepSize()/2;
+		var startdate = this.timeline.getDataForPosition(ui.position.left);
+		// we need the offset because of… ROUNDING? I don’t actually know
+		// TODO: investigate why we need the offset here
+		var enddate = this.timeline.getDataForPosition(ui.position.left+this.picker.width()-offset);
+		
+		this.dataController.setDateAndRange(startdate["day"]["date"], enddate["index"]-startdate["index"]);
 	},
 	duringDrag: function (event, ui)
 	{
@@ -61,38 +67,20 @@ snowviz.TimelineRangePicker = L.Class.extend({
 	afterDrag: function (event, ui)
 	{
 		console.log("picker drag stop");
-		this.afterInteraction(event, ui);
-	},
-	afterInteraction: function (event, ui)
-	{
-		console.log("picker after interaction");
-		var startdate = this.getTimelineDataForPosition(ui.position.left);
-		var enddate = this.getTimelineDataForPosition(ui.position.left+this.picker.width());
-		console.log(startdate["day"]["date"]);
-		console.log(enddate["day"]["date"]);
+		var startdate = this.timeline.getDataForPosition(ui.position.left);
 		
-		this.dataController.setDateAndRange(startdate["day"]["date"], enddate["index"]-startdate["index"]);
-		
-	},
-	getTimelineDataForPosition: function (x)
-	{
-		var data = this.dataController.getTimelineData();
-		var stepSize = this.timeline.getWidth() / (data["days"].length-1);
-		var dayIndex = Math.floor(x/stepSize);
-		return {
-			"day": data["days"][dayIndex],
-			"index": dayIndex
-		}
+		// never change the range when only dragging
+		this.dataController.setDateAndRange(startdate["day"]["date"], this.dataController.currentRange);
 	},
 	updatePickers: function ()
 	{
 		if (this.dataController.getTimelineData()) {
-			console.log(this.timeline.stepSize);
-			if (this.picker.width() == 0) this.picker.width(this.timeline.stepSize+"px");
+			var stepSize = this.timeline.getStepSize();
+			if (this.picker.width() == 0) this.picker.width(stepSize+"px");
 			this.picker.draggable("enable");
-			this.picker.draggable("option", "grid", [this.timeline.stepSize, 0]);
+			this.picker.draggable("option", "grid", [stepSize, 0]);
 			this.picker.resizable("enable");
-			this.picker.resizable("option", "grid", [this.timeline.stepSize, 0]);
+			this.picker.resizable("option", "grid", [stepSize, 0]);
 			this.picker.show();
 			this.redrawPickers();
 		} else {

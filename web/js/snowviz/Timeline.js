@@ -34,6 +34,17 @@ snowviz.Timeline = L.Class.extend({
 		this.calculateGraphPoints();
 		this.redrawGraph();
 	},
+	getDataForPosition: function (x)
+	{
+		var data = this.dataController.getTimelineData();
+		var stepSize = this.getStepSize();
+		var offset = stepSize/2;
+		var dayIndex = Math.floor((x+offset)/stepSize);
+		return {
+			"day": data["days"][dayIndex],
+			"index": dayIndex
+		}
+	},
 	getWidth: function ()
 	{
 		return $("#snowgraph").width();
@@ -41,6 +52,13 @@ snowviz.Timeline = L.Class.extend({
 	getHeight: function ()
 	{
 		return $("#snowgraph").height();
+	},
+	getStepSize: function ()
+	{
+		var randomKey = _.chain(this.graphPoints).keys().first().value();
+		// NOT length - 1 because we have one additional day shown
+		// (the half-days at the left and right extremes of the graph)
+		return this.stage.getWidth() / (this.graphPoints[randomKey].length);
 	},
 	calculateGraphPoints: function ()
 	{
@@ -93,8 +111,7 @@ snowviz.Timeline = L.Class.extend({
 			
 			// figure out how many pixels apart we need to put each data point for the graph,
 			// and the vertical scale
-			var stepSize = this.stage.getWidth() / (data["days"].length-1);
-			self.stepSize = stepSize;
+			var stepSize = this.getStepSize();
 			var yScale = this.stage.getHeight();
 			// coordinate system starts top left, so we want to subtract the item values from the height
 			var h = this.stage.getHeight();

@@ -4,13 +4,15 @@ snowviz.Timeline = L.Class.extend({
 	includes: L.Mixin.Events,
 	stepSize: 0,
 	stage: null,
+	container: null,
 	initialize: function (options)
 	{
 		// set up graph
+		this.container = $(options.container);
 		this.stage = new Kinetic.Stage({
-			container: 'snowgraph',
-			width: $("#snowgraph").width(),
-			height: $("#snowgraph").height()
+			container: this.container[0],
+			width: this.container.width(),
+			height: this.container.height()
 		});
 		this.graphLayer = new Kinetic.Layer();
 		this.stage.add(this.graphLayer);
@@ -47,11 +49,11 @@ snowviz.Timeline = L.Class.extend({
 	},
 	getWidth: function ()
 	{
-		return $("#snowgraph").width();
+		return this.container.width();
 	},
 	getHeight: function ()
 	{
-		return $("#snowgraph").height();
+		return this.container.height();
 	},
 	getStepSize: function ()
 	{
@@ -106,8 +108,8 @@ snowviz.Timeline = L.Class.extend({
 			self.graphLayer.removeChildren();
 			
 			// figure out new size, if needed
-			self.stage.setHeight($("#snowgraph").height());
-			self.stage.setWidth($("#snowgraph").width());
+			self.stage.setHeight(self.getHeight());
+			self.stage.setWidth(self.getWidth());
 			
 			// figure out how many pixels apart we need to put each data point for the graph,
 			// and the vertical scale

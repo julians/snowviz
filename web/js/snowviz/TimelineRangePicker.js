@@ -41,7 +41,8 @@ snowviz.TimelineRangePicker = L.Class.extend({
 		
 			this.picker.css({
 				"left": (stepSize*startdateIndex)+"px",
-				"width": (stepSize*(range+1))+"px"
+				"width": (stepSize*(range+1))+"px",
+				"height": this.timeline.getHeight()+"px"
 			});
 		}
 	},

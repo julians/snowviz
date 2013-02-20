@@ -63,12 +63,21 @@ body {
 	position: relative;
 }
 
-#rangepickerBox {
+#timeline-graphs {
 	position: absolute;
 	left: 0;
 	right: 0;
 	top: 42px;
 	bottom: 0;
+}
+
+
+#rangepickerBox {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 75%;
 }
 
 #rangepickerGraph {
@@ -95,6 +104,23 @@ body {
 	bottom: -1px;
 	width: 0;
 	background: hsla(0, 100%, 50%, 0.5);
+}
+
+#snowgraphBox {
+	position: absolute;
+	top: 25%;
+	bottom: 0;
+	left: 0;
+	right: 0;
+}
+
+#snowgraph {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	z-index: 1;
 }
 
 /* Zoom Controls */

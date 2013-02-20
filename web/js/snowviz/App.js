@@ -25,6 +25,11 @@ snowviz.App = L.Class.extend({
 			app: this,
 			container: $("#rangepickerGraph")
 		});
+		this.snowgraph = new snowviz.Snowgraph({
+			dataController: this.dataController,
+			app: this,
+			container: $("#snowgraph")
+		});
 		/*
 		this.timelineInteraction = new snowviz.TimelineInteraction({
 			dataController: this.dataController

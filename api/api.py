@@ -138,6 +138,11 @@ def graph():
     
         for row in cur.fetchall():
             if row[0] != current_date:
+                if len(data["days"]):
+                    data["days"][-1]["total"] = {
+                        "absolute": snow_for_current_date,
+                        "relative_to_area": snow_for_current_date/max_snow_points
+                    }
                 if snow_for_current_date > max_snow: max_snow = snow_for_current_date
                 snow_for_current_date = 0
                 current_date = row[0]
@@ -149,7 +154,12 @@ def graph():
             }
             altitude_ranges.add(int(row[1]))
             snow_for_current_date += row[2]
-    
+
+        data["days"][-1]["total"] = {
+            "absolute": snow_for_current_date,
+            "relative_to_area": snow_for_current_date/max_snow_points
+        }
+        
         data["max_absolute_snow"] = max_snow
         data["max_relative_snow"] = max_snow/max_snow_points
         data["altitude_ranges"] = sorted(list(altitude_ranges))

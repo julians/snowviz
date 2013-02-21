@@ -35,35 +35,35 @@ Setzt glaube ich, aufgrund von Postgres.app, mindestens Mac OS 10.7 vorraus.
 	
 	`PATH="/Applications/Postgres.app/Contents/MacOS/bin:$PATH"`
 	
-1. Mit Postgres verbinden
+2. Mit Postgres verbinden
 
 	`psql`
 	
-2. User julian erstellen, weil ich zu faul bin, alle Skripte zu ändern
+3. User julian erstellen, weil ich zu faul bin, alle Skripte zu ändern
 
 	`CREATE USER julian WITH CREATEDB;`
 	
-3. Abmelden
+4. Abmelden
 
 	`\q`
 	
-4. Als User julian anmelden
+5. Als User julian anmelden
 
 	`psql -U julian`
 	   
-5. Datenbank erstellen
+6. Datenbank erstellen
 
 	`CREATE DATABASE snow;`
  
-6. Zur Datenbank wechseln
+7. Zur Datenbank wechseln
 
 	`\connect snow`
  
-7. Postgis-Erweiterung zur Datenbank hinzufügen
+8. Postgis-Erweiterung zur Datenbank hinzufügen
 
 	`CREATE EXTENSION postgis;`
 	
-8. Abmelden
+9. Abmelden
 
 	`\q`
 	

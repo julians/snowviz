@@ -31,13 +31,17 @@ Setzt glaube ich, aufgrund von Postgres.app, mindestens Mac OS 10.7 vorraus.
 
 ### Datenbank einrichten
 
+1. Dafür sorgen, dass man Postgres.app benutzt, und nicht die mit Mac OS mitgelieferte Version. Also das hier in die `.bashrc`, `.bash_login` oder `.profile` oder so im Nutzerverzeichnis reinschreiben und dann das Terminal neu starten:
+	
+	`PATH="/Applications/Postgres.app/Contents/MacOS/bin:$PATH"`
+	
 1. Mit Postgres verbinden
 
 	`psql`
 	
 2. User julian erstellen, weil ich zu faul bin, alle Skripte zu ändern
 
-	`CREATE USER hallo WITH CREATEDB;`
+	`CREATE USER julian WITH CREATEDB;`
 	
 3. Abmelden
 

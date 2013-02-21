@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <title>Howto</title>
+  <title>howto</title>
 
 	<meta name="format" content="complete"/>
   <style type="text/css">
@@ -391,12 +391,15 @@ mark {
 <h3>Datenbank einrichten</h3>
 
 <ol>
+<li><p>Dafür sorgen, dass man Postgres.app benutzt, und nicht die mit Mac OS mitgelieferte Version. Also das hier in die <code>.bashrc</code>, <code>.bash_login</code> oder <code>.profile</code> oder so im Nutzerverzeichnis reinschreiben und dann das Terminal neu starten:</p>
+
+<p><code>PATH=&quot;/Applications/Postgres.app/Contents/MacOS/bin:$PATH&quot;</code></p></li>
 <li><p>Mit Postgres verbinden</p>
 
 <p><code>psql</code></p></li>
 <li><p>User julian erstellen, weil ich zu faul bin, alle Skripte zu ändern</p>
 
-<p><code>CREATE USER hallo WITH CREATEDB;</code></p></li>
+<p><code>CREATE USER julian WITH CREATEDB;</code></p></li>
 <li><p>Abmelden</p>
 
 <p><code>\q</code></p></li>

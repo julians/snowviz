@@ -388,18 +388,24 @@ mark {
 <p>Mini-Framework für die API</p></li>
 </ol>
 
+<h3>PostGIS-Abhängigkeiten installieren</h3>
+
+<ol>
+<li><code>brew install libjpeg</code></li>
+</ol>
+
 <h3>Datenbank einrichten</h3>
 
 <ol>
-<li><p>Dafür sorgen, dass man Postgres.app benutzt, und nicht die mit Mac OS mitgelieferte Version. Also das hier in die <code>.bashrc</code>, <code>.bash_login</code> oder <code>.profile</code> oder so im Nutzerverzeichnis reinschreiben und dann das Terminal neu starten:</p>
-
-<p><code>PATH=&quot;/Applications/Postgres.app/Contents/MacOS/bin:$PATH&quot;</code></p></li>
 <li><p>Mit Postgres verbinden</p>
 
 <p><code>psql</code></p></li>
 <li><p>User julian erstellen, weil ich zu faul bin, alle Skripte zu ändern</p>
 
-<p><code>CREATE USER julian WITH CREATEDB;</code></p></li>
+<p><code>CREATE USER julian WITH SUPERUSER;</code></p></li>
+<li><p>Neue Datenbank für user julian erstellen:</p>
+
+<p><code>CREATE DATABASE julian;</code></p></li>
 <li><p>Abmelden</p>
 
 <p><code>\q</code></p></li>

@@ -29,19 +29,23 @@ Setzt glaube ich, aufgrund von Postgres.app, mindestens Mac OS 10.7 vorraus.
 	
 	Mini-Framework für die API
 
-### Datenbank einrichten
+### PostGIS-Abhängigkeiten installieren
 
-1. Dafür sorgen, dass man Postgres.app benutzt, und nicht die mit Mac OS mitgelieferte Version. Also das hier in die `.bashrc`, `.bash_login` oder `.profile` oder so im Nutzerverzeichnis reinschreiben und dann das Terminal neu starten:
+1. `brew install libjpeg`
+
+### Datenbank einrichten
 	
-	`PATH="/Applications/Postgres.app/Contents/MacOS/bin:$PATH"`
-	
-2. Mit Postgres verbinden
+1. Mit Postgres verbinden
 
 	`psql`
 	
-3. User julian erstellen, weil ich zu faul bin, alle Skripte zu ändern
+2. User julian erstellen, weil ich zu faul bin, alle Skripte zu ändern
 
-	`CREATE USER julian WITH CREATEDB;`
+	`CREATE USER julian WITH SUPERUSER;`
+	
+3. Neue Datenbank für user julian erstellen:
+	
+	`CREATE DATABASE julian;`
 	
 4. Abmelden
 

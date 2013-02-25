@@ -63,7 +63,7 @@ snowviz.Snowgraph = L.Class.extend({
 		var randomKey = _.chain(this.graphPoints).keys().first().value();
 		// NOT length - 1 because we have one additional day shown
 		// (the half-days at the left and right extremes of the graph)
-		return this.stage.getWidth() / (this.graphPoints[randomKey].length);
+		return this.stage.getWidth() / (this.graphPoints[randomKey].length-2);
 	},
 	calculateGraphPoints: function ()
 	{
@@ -130,6 +130,8 @@ snowviz.Snowgraph = L.Class.extend({
 				self.graphPoints[altitude].push(self.graphPoints[altitude][self.graphPoints[altitude].lenght-1]);
 			});
 		}
+		
+		console.dir(self.graphPoints);
 	},
 	redrawGraph: function ()
 	{
@@ -166,7 +168,7 @@ snowviz.Snowgraph = L.Class.extend({
 				});
 				// bottom right corner point
 				points.push([
-					stepSize/2+stepSize*self.graphPoints[altitude].length,
+					stepSize/-2+stepSize*self.graphPoints[altitude].length,
 					h
 				]);
 				// bottom left corner point
@@ -183,6 +185,21 @@ snowviz.Snowgraph = L.Class.extend({
 				// else you wouldn’t see the smaller ones, would you?
 				self.graphs[altitude].moveToBottom();
 			});
+			
+			// date lines
+			_.each(self.graphPoints[altitudeStrings[0]], function (graphPoint, index) {
+				var line = new Kinetic.Line({
+					points: [
+						[stepSize/-2+stepSize*index, h],
+						[stepSize/-2+stepSize*index, 0]
+					],
+					strokeWidth: 1,
+					stroke: "#ccc"
+				});
+				self.graphLayer.add(line);
+				line.moveToBottom();
+			});
+			
 			// draw everything
 			self.graphLayer.draw();
 			this.fireEvent("timelineRedrawn");

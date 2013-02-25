@@ -69,23 +69,41 @@ snowviz.Snowgraph = L.Class.extend({
 	{
 		console.log("Timeline: calculating graph points");
 		var self = this;
-		var data = self.options.dataController.getTimelineData();
+		var duplicateFirstDay = true;
+		var duplicateLastDay = true;
+		
+		// figure out what the first date is
+		// and if we have data for the date before
+		var start = self.options.dataController.getFirstSelectedDateIndex();
+		if (!self.options.dataController.isFirstDateSelected()) {
+			start--;
+			duplicateFirstDay = false;
+		}
+		
+		// figure out what the last date is
+		// and if we have data for the date before
+		var end = self.options.dataController.getLastSelectedDateIndex();
+		if (!self.options.dataController.isLastDateSelected()) {
+			end++;
+			duplicateLastDay = false;
+		}
+		
+		// get the data
+		var data = self.options.dataController.getTimelineDataForRange(start, end+1);
 		self.graphPoints = {};
-		var altitudeStrings = _.map(data["altitude_ranges"], function (altitude) {
-			return altitude+"";
-		});
+		var altitudeStrings = self.options.dataController.getAltitudeRanges();
 		
 		// summing up altitudes for the graphs to build on each other
 		// prefill with 0
 		var altitudeSums = [];
-		for (var i = data["days"].length - 1; i >= 0; i--){
+		for (var i = data.length - 1; i >= 0; i--){
 			altitudeSums[i] = 0;
 		}
 		
 		// calculate points for graph
 		_.each(altitudeStrings, function (altitude, altitudeIndex) {
 			self.graphPoints[altitude] = [];
-			_.each(data["days"], function (day, dayIndex) {
+			_.each(data, function (day, dayIndex) {
 				if (_.has(day, altitude)) {
 					self.graphPoints[altitude].push(
 						day[altitude]["relative_to_area"]+altitudeSums[dayIndex]
@@ -98,12 +116,25 @@ snowviz.Snowgraph = L.Class.extend({
 				}
 			});
 		});
+		// there’s no data for the date before the first selected,
+		// so we’ll duplicate that
+		if (duplicateFirstDay) {
+			_.each(altitudeStrings, function (altitude, altitudeIndex) {
+				self.graphPoints[altitude].unshift(self.graphPoints[altitude][0]);
+			});
+		}
+		// there’s no data for the date after the last selected,
+		// so we’ll duplicate that
+		if (duplicateLastDay) {
+			_.each(altitudeStrings, function (altitude, altitudeIndex) {
+				self.graphPoints[altitude].push(self.graphPoints[altitude][self.graphPoints[altitude].lenght-1]);
+			});
+		}
 	},
 	redrawGraph: function ()
 	{
 		var self = this;
-		var data = self.options.dataController.getTimelineData();
-		if (data && self.graphPoints) {
+		if (self.graphPoints) {
 			console.log("Timeline: redrawing graphs");
 			
 			// alte Graphen löschen
@@ -122,24 +153,17 @@ snowviz.Snowgraph = L.Class.extend({
 			var h = this.stage.getHeight();
 			
 			// Höhenstufen umsortieren und in Strings umwandeln
-			var altitudeStrings = _.map(data["altitude_ranges"], function (altitude) {
-				return altitude+"";
-			});
+			var altitudeStrings = self.options.dataController.getAltitudeRanges();
 			console.log(altitudeStrings);
 			
 			_.each(altitudeStrings, function (altitude, altitudeIndex) {
 				var points = [];
 				_.each(self.graphPoints[altitude], function (graphPoint, graphPointsIndex) {
 					points.push([
-						stepSize/2+stepSize*graphPointsIndex,
+						stepSize/-2+stepSize*graphPointsIndex,
 						h-h*graphPoint
 					]);
 				});
-				// duplicate last point
-				points.push([
-					stepSize/2+stepSize*self.graphPoints[altitude].length,
-					h-h*_.last(self.graphPoints[altitude])
-				]);
 				// bottom right corner point
 				points.push([
 					stepSize/2+stepSize*self.graphPoints[altitude].length,
@@ -150,12 +174,6 @@ snowviz.Snowgraph = L.Class.extend({
 					stepSize/-2,
 					h
 				]);
-				// duplicate first point
-				points.push([
-					stepSize/-2,
-					h-h*_.first(self.graphPoints[altitude])
-				]);
-				
 				self.graphs[altitude] = new Kinetic.Polygon({
 					points: points,
 					fill: "hsl(202, 67%, "+ Math.floor(25+(75/(altitudeStrings.length-1)*altitudeIndex))+"%)"

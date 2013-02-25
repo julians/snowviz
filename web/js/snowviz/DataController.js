@@ -58,6 +58,27 @@ snowviz.DataController = L.Class.extend({
 	{
 		return this.timelineData;
 	},
+	getTimelineDataForRange: function (start, end)
+	{
+		if (!this.timelineData) return null;
+		
+		var startIndex = start;
+		if (moment.isMoment(start)) {
+			startIndex = this.getIndexForDate(start);
+		}
+		var endIndex = end;
+		if (moment.isMoment(end)) {
+			endIndex = this.getIndexForDate(end);
+		}
+		
+		return this.timelineData.days.slice(start, end);
+	},
+	getAltitudeRanges: function ()
+	{
+		return _.map(this.timelineData["altitude_ranges"], function (altitude) {
+			return altitude+"";
+		});
+	},
 	setDateAndRange: function (newDate, newRange)
 	{
 		console.log("DataController: setDateAndRange to " + newDate + ", " + newRange);
@@ -108,6 +129,10 @@ snowviz.DataController = L.Class.extend({
 	{
 		return this.getLastSelectedDate().diff(this.firstDate, "days");
 	},
+	getIndexForDate: function (date)
+	{
+		return moment(date).diff(this.firstDate, "days");
+	},
 	isFirstDateSelected: function ()
 	{
 		return this.getCurrentDateOffset() == 0;
@@ -134,6 +159,10 @@ snowviz.DataController = L.Class.extend({
 	{
 		var maxRange = moment.duration(this.lastDate-this.currentDate);
 		return Math.floor(maxRange.asDays());
+	},
+	getTotalNumberOfDays: function ()
+	{
+		return this.timelineData.length;
 	},
 	goToDate: function (newDate)
 	{

@@ -120,8 +120,6 @@ snowviz.Timeline = L.Class.extend({
 				h-h*_.first(points)
 			]);
 			
-			console.dir(points);
-			
 			self.graph = new Kinetic.Polygon({
 				points: points,
 				fill: "hsl(202, 67%, 50%)"

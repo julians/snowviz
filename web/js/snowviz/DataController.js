@@ -144,8 +144,6 @@ snowviz.DataController = L.Class.extend({
 	isLastDateSelected: function ()
 	{
 		var daysFromLastDate = moment.duration(this.lastDate-this.currentDate);
-		console.log(daysFromLastDate.asDays());
-		console.log(this.currentRange);
 		return (this.daysFromLastDate - this.currentRange) == 0;
 	},
 	setRange: function (range)

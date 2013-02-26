@@ -91,13 +91,11 @@ snowviz.ShapefileManager = L.Class.extend({
 		// "load" the shapefiles into the UI
 		for(var i in this.shapefiles) {
 			var shape = this.shapefiles[i];
-			console.log(shape);
 			$("#pile ul").append("<li><a href='#"+ shape.title+"' id='#"+shape.title+"'>"+shape.title+"</a></li>");
 		}
 	},
 	updateLayers: function (intIndex) {
 		//console.log($('#pile li').length);
-		console.log("booooo")
 		$('#pile li').each(function() {
 
 

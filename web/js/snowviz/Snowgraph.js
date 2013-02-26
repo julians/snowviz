@@ -136,8 +136,6 @@ snowviz.Snowgraph = L.Class.extend({
 				self.graphPoints[altitude].push(self.graphPoints[altitude][self.graphPoints[altitude].lenght-1]);
 			});
 		}
-		
-		console.dir(self.graphPoints);
 	},
 	redrawGraph: function ()
 	{
@@ -165,7 +163,6 @@ snowviz.Snowgraph = L.Class.extend({
 			
 			// Höhenstufen umsortieren und in Strings umwandeln
 			var altitudeStrings = self.options.dataController.getAltitudeRanges();
-			console.log(altitudeStrings);
 			
 			_.each(altitudeStrings, function (altitude, altitudeIndex) {
 				var points = [];

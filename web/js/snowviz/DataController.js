@@ -71,7 +71,11 @@ snowviz.DataController = L.Class.extend({
 			endIndex = this.getIndexForDate(end);
 		}
 		
-		return this.timelineData.days.slice(start, end);
+		return this.timelineData.days.slice(start, end+1);
+	},
+	getTimelineDataForSelectedRange: function ()
+	{
+		return this.getTimelineDataForRange(this.getFirstSelectedDateIndex(), this.getLastSelectedDateIndex());
 	},
 	getAltitudeRanges: function ()
 	{

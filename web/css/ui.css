@@ -93,20 +93,34 @@ body {
   width: 0;
   background: rgba(255, 0, 0, 0.5); }
 
-#snowgraphBox {
+#snowgraph {
   position: absolute;
   top: 25%;
   bottom: 0;
   left: 0;
   right: 0; }
 
-#snowgraph {
+#snowgraph .graph {
   position: absolute;
   left: 0;
   right: 0;
   top: 0;
   bottom: 0;
   z-index: 1; }
+
+#snowgraph .labels {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 2; }
+
+#snowgraph .labels span {
+  position: absolute;
+  top: 5px;
+  font-size: 10px;
+  color: #aaa; }
 
 /* Zoom Controls */
 .leaflet-control-zoom, .leaflet-control-zoom-in, .leaflet-control-zoom-out {

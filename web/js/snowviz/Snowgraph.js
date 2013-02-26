@@ -5,7 +5,13 @@ snowviz.Snowgraph = L.Class.extend({
 	options: {
 		app: null,
 		container: null,
-		dataController: null
+		dataController: null,
+		dateTextStyle: {
+			fontSize: 10,
+			fontFamily: "Helvetica Neue",
+			fill: "#ccc",
+			y: 10
+		}
 	},
 	initialize: function (options)
 	{
@@ -13,22 +19,26 @@ snowviz.Snowgraph = L.Class.extend({
 		
 		this.options.container = $(this.options.container);
 		this.stage = new Kinetic.Stage({
-			container: this.options.container[0],
+			container: this.options.container.children(".graph").first()[0],
 			width: this.options.container.width(),
 			height: this.options.container.height()
 		});
 		this.graphLayer = new Kinetic.Layer();
 		this.stage.add(this.graphLayer);
+		
+		this.labelContainer = this.options.container.children(".labels").first();
+		this.labelTemplate = this.labelContainer.children().first().clone();
+		this.labelContainer.empty();
 			  
 		this.graphs = {};
 		this.graphPoints = null;
 		this.stepSize = 0;
 		
-		this.options.app.addEventListener("uiResize", this.redrawGraph.bind(this));
 		this.options.dataController.addEventListener("timelineDataChanged", this.initWithData.bind(this));
 	},
 	initWithData: function ()
 	{
+		this.options.app.addEventListener("uiResize", this.redrawGraph.bind(this));
 		this.options.dataController.removeEventListener("timelineDataChanged", this.initWithData.bind(this));
 		this.options.dataController.addEventListener("dateChanged", this.dateChanged.bind(this));
 		this.dateChanged();
@@ -41,14 +51,10 @@ snowviz.Snowgraph = L.Class.extend({
 	},
 	getDataForPosition: function (x)
 	{
-		var data = this.options.dataController.getTimelineData();
+		var data = this.options.dataController.getTimelineDataForSelectedRange();
 		var stepSize = this.getStepSize();
-		var offset = stepSize/2;
-		var dayIndex = Math.floor((x+offset)/stepSize);
-		return {
-			"day": data["days"][dayIndex],
-			"index": dayIndex
-		}
+		var index = Math.floor(x/stepSize);
+		return data[index];
 	},
 	getWidth: function ()
 	{
@@ -89,7 +95,7 @@ snowviz.Snowgraph = L.Class.extend({
 		}
 		
 		// get the data
-		var data = self.options.dataController.getTimelineDataForRange(start, end+1);
+		var data = self.options.dataController.getTimelineDataForRange(start, end);
 		self.graphPoints = {};
 		var altitudeStrings = self.options.dataController.getAltitudeRanges();
 		
@@ -143,6 +149,9 @@ snowviz.Snowgraph = L.Class.extend({
 			self.graphs = {};
 			self.graphLayer.removeChildren();
 			
+			// delete old labels
+			self.labelContainer.empty();
+			
 			// figure out new size, if needed
 			self.stage.setHeight(self.getHeight());
 			self.stage.setWidth(self.getWidth());
@@ -186,7 +195,8 @@ snowviz.Snowgraph = L.Class.extend({
 				self.graphs[altitude].moveToBottom();
 			});
 			
-			// date lines
+			// date lines and text
+			var dateData = self.options.dataController.getTimelineDataForSelectedRange();
 			_.each(self.graphPoints[altitudeStrings[0]], function (graphPoint, index) {
 				var line = new Kinetic.Line({
 					points: [
@@ -196,6 +206,12 @@ snowviz.Snowgraph = L.Class.extend({
 					strokeWidth: 1,
 					stroke: "#ccc"
 				});
+				if (index > 0 && index < self.graphPoints[altitudeStrings[0]].length-1) {
+					var label = self.labelTemplate.clone();
+					label.html(moment(dateData[index-1]["date"]).format("DD.MM.YYYY"));
+					label.css("left", (stepSize/-2+stepSize*index+5) + "px");
+					self.labelContainer.append(label);
+				}
 				self.graphLayer.add(line);
 				line.moveToBottom();
 			});

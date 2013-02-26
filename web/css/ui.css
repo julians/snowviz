@@ -10,7 +10,8 @@ html, body {
 
 body {
   font-family: "Helvetica Neue", "Helvetica", "Arial";
-  color: white; }
+  color: white;
+  background: #292929; }
 
 #overlay {
   background: #292929;
@@ -37,7 +38,11 @@ body {
     margin-bottom: 30px; }
 
 #map_container {
-  height: 70%; }
+  height: 70%;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0; }
 
 #map {
   height: 100%;
@@ -45,7 +50,10 @@ body {
 
 #timeline {
   height: 30%;
-  position: relative; }
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0; }
 
 #timeline-graphs {
   position: absolute;

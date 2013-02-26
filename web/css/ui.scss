@@ -18,6 +18,7 @@ html, body {
 body {
 	font-family: "Helvetica Neue", "Helvetica", "Arial";
 	color: $label_color;
+	background: #292929;
 }
 
 #overlay {
@@ -51,6 +52,10 @@ body {
 
 #map_container {
 	height: 70%;
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
 }
 
 #map {
@@ -60,7 +65,10 @@ body {
 
 #timeline {
 	height: 30%;
-	position: relative;
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
 }
 
 #timeline-graphs {

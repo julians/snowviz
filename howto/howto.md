@@ -75,12 +75,12 @@ Danach kann man sich mit `psql -U julian -d snow` auch direkt bei der Datenbank 
 
 ### Tabellen erstellen, Datenbanken importieren etc.
 
-1. `cd Skripte`
+1. `cd scripts`
 2. `python altitude_create_table.py`
 
 	Erstellt die Tabelle für die Höhendaten
 
-3. `python altitude_import.py ../Abror/DEM/zerafshan_mod_dem.asc`
+3. `python altitude_import.py [richtiger Pfad]/DEM/zerafshan_mod_dem.asc`
 
 	Importiert die Höhendaten aus der Datei. Nicht, dass wir im Moment was damit machen würden, aber egal.
 
@@ -88,15 +88,25 @@ Danach kann man sich mit `psql -U julian -d snow` auch direkt bei der Datenbank 
 
 	Tabelle für Schneedaten.
 
-5. `python snow_import.py ../Abror/CloudFree`
+5. `python snow_import.py [richtiger Pfad]/CloudFree`
 
 	Importiert alle Dateien im Order der Schneedaten. Kann durchaus ne Viertelstunde dauern.
 	
-6. `python snow_update_altitudes.py`
-
-	Sucht die Höhe für jeden Schneepunkt. Dauert um einiges länger als das Importieren der Daten, vielleicht 10, 20 Mal so lange?
+	*Anmerkung: bei langen Pfadnamen oder welchen mit Leerzeichen kommt’s anscheinend zu Problemen. Am besten den CloudFree-Ordner in den scripts-Ordner kopieren und dann `python snow_import CloudFree/`. Danach den CloudFree-Ordner wieder löschen.*
 	
-7. `python vacuum.py`
+6. `python altitude_map_create_table.py`
+	
+	Erstellt eine Tabelle, die die Schneekoordinaten auf die Höhendaten mapt.
+	
+7. `python altitude_map_update.py`
+	
+	Mapt die Höhen der Schneepunkte auf die der Höhendaten und speichert das ganze in einer Tabelle.
+	
+8. `python snow_update_altitudes.py`
+	
+	Schreibt die Höhendaten in die snow_points-Tabelle.
+	
+8. `python vacuum.py`
 
 	Optimiert die Datenbank, damit alles ein wenig schneller läuft. Dauert auch ein wenig.
 	

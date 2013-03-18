@@ -431,22 +431,30 @@ mark {
 <h3>Tabellen erstellen, Datenbanken importieren etc.</h3>
 
 <ol>
-<li><p><code>cd Skripte</code></p></li>
+<li><p><code>cd scripts</code></p></li>
 <li><p><code>python altitude_create_table.py</code></p>
 
 <p>Erstellt die Tabelle für die Höhendaten</p></li>
-<li><p><code>python altitude_import.py ../Abror/DEM/zerafshan_mod_dem.asc</code></p>
+<li><p><code>python altitude_import.py [richtiger Pfad]/DEM/zerafshan_mod_dem.asc</code></p>
 
 <p>Importiert die Höhendaten aus der Datei. Nicht, dass wir im Moment was damit machen würden, aber egal.</p></li>
 <li><p><code>python snow_create_table.py</code></p>
 
 <p>Tabelle für Schneedaten.</p></li>
-<li><p><code>python snow_import.py ../Abror/CloudFree</code></p>
+<li><p><code>python snow_import.py [richtiger Pfad]/CloudFree</code></p>
 
-<p>Importiert alle Dateien im Order der Schneedaten. Kann durchaus ne Viertelstunde dauern.</p></li>
+<p>Importiert alle Dateien im Order der Schneedaten. Kann durchaus ne Viertelstunde dauern.</p>
+
+<p><em>Anmerkung: bei langen Pfadnamen oder welchen mit Leerzeichen kommt’s anscheinend zu Problemen. Am besten den CloudFree-Ordner in den scripts-Ordner kopieren und dann <code>python snow_import CloudFree/</code>. Danach den CloudFree-Ordner wieder löschen.</em></p></li>
+<li><p><code>python altitude_map_create_table.py</code></p>
+
+<p>Erstellt eine Tabelle, die die Schneekoordinaten auf die Höhendaten mapt.</p></li>
+<li><p><code>python altitude_map_update.py</code></p>
+
+<p>Mapt die Höhen der Schneepunkte auf die der Höhendaten und speichert das ganze in einer Tabelle.</p></li>
 <li><p><code>python snow_update_altitudes.py</code></p>
 
-<p>Sucht die Höhe für jeden Schneepunkt. Dauert um einiges länger als das Importieren der Daten, vielleicht 10, 20 Mal so lange?</p></li>
+<p>Schreibt die Höhendaten in die snow_points-Tabelle.</p></li>
 <li><p><code>python vacuum.py</code></p>
 
 <p>Optimiert die Datenbank, damit alles ein wenig schneller läuft. Dauert auch ein wenig.</p></li>
